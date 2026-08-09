@@ -548,6 +548,16 @@
                 <artifactId>logic-engine-impl</artifactId>
                 <version>1.0.0.a-SNAPSHOT</version>
             </dependency>
+            <dependency>
+                <groupId>com.dwarfeng</groupId>
+                <artifactId>logic-engine-node</artifactId>
+                <version>1.0.0.a-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dwarfeng</groupId>
+                <artifactId>logic-engine-node-all-he</artifactId>
+                <version>1.0.0.a-SNAPSHOT</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -592,5 +602,6 @@
         <module>logic-engine-stack</module>
         <module>logic-engine-sdk</module>
         <module>logic-engine-impl</module>
+        <module>logic-engine-node</module>
     </modules>
 </project>

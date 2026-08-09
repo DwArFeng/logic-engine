@@ -72,24 +72,30 @@ buildNumber.properties
 ## Logger Files
 #################
 /logic-engine-impl/logs/
+/logic-engine-node/logic-engine-node-all-he/logs/
 
 #################
 ## Configuration Files
 #################
 /logic-engine-impl/conf/
+/logic-engine-node/logic-engine-node-all-he/conf/
 
 #################
 ## Libext Files
 #################
+/logic-engine-node/logic-engine-node-all-he/libext/
 
 #################
 ## Opt Files
 #################
+/logic-engine-node/logic-engine-node-all-he/opt/
 
 #################
 ## Optext Files
 #################
+/logic-engine-node/logic-engine-node-all-he/optext/
 
 #################
 ## Confext Files
 #################
+/logic-engine-node/logic-engine-node-all-he/confext/
