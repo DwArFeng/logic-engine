@@ -41,6 +41,10 @@ public final class ServiceExceptionHelper {
                 TaskVariableValueTypeMismatchException.class,
                 ServiceExceptionCodes.TASK_VARIABLE_VALUE_TYPE_MISMATCH
         );
+        map.put(PerformerException.class, ServiceExceptionCodes.PERFORMER_FAILED);
+        map.put(PerformerMakeException.class, ServiceExceptionCodes.PERFORMER_MAKE_FAILED);
+        map.put(PerformerExecutionException.class, ServiceExceptionCodes.PERFORMER_EXECUTION_FAILED);
+        map.put(UnsupportedPerformerTypeException.class, ServiceExceptionCodes.PERFORMER_TYPE_UNSUPPORTED);
 
         return map;
     }

@@ -22,6 +22,14 @@ public final class ServiceExceptionCodes {
             new ServiceException.Code(offset(30), "invalid task variable value type");
     public static final ServiceException.Code TASK_VARIABLE_VALUE_TYPE_MISMATCH =
             new ServiceException.Code(offset(40), "task variable value type mismatch");
+    public static final ServiceException.Code PERFORMER_FAILED =
+            new ServiceException.Code(offset(50), "performer failed");
+    public static final ServiceException.Code PERFORMER_MAKE_FAILED =
+            new ServiceException.Code(offset(51), "performer make failed");
+    public static final ServiceException.Code PERFORMER_EXECUTION_FAILED =
+            new ServiceException.Code(offset(52), "performer execution failed");
+    public static final ServiceException.Code PERFORMER_TYPE_UNSUPPORTED =
+            new ServiceException.Code(offset(53), "performer type unsupported");
 
     private static int offset(int value) {
         return EXCEPTION_CODE_OFFSET + value;
@@ -51,6 +59,10 @@ public final class ServiceExceptionCodes {
         TASK_VARIABLE_NOT_EXISTS.setCode(offset(20));
         INVALID_TASK_VARIABLE_VALUE_TYPE.setCode(offset(30));
         TASK_VARIABLE_VALUE_TYPE_MISMATCH.setCode(offset(40));
+        PERFORMER_FAILED.setCode(offset(50));
+        PERFORMER_MAKE_FAILED.setCode(offset(51));
+        PERFORMER_EXECUTION_FAILED.setCode(offset(52));
+        PERFORMER_TYPE_UNSUPPORTED.setCode(offset(53));
     }
 
     private ServiceExceptionCodes() {
