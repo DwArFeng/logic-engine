@@ -244,6 +244,84 @@ public interface BeanMapper {
 
     // region LogicEngine DTO
 
+    FastJsonTaskCreateResult taskCreateResultToFastJson(TaskCreateResult taskCreateResult);
+
+    @InheritInverseConfiguration
+    TaskCreateResult taskCreateResultFromFastJson(FastJsonTaskCreateResult fastJsonTaskCreateResult);
+
+    JSFixedFastJsonTaskCreateResult taskCreateResultToJSFixedFastJson(TaskCreateResult taskCreateResult);
+
+    @InheritInverseConfiguration
+    TaskCreateResult taskCreateResultFromJSFixedFastJson(
+            JSFixedFastJsonTaskCreateResult jSFixedFastJsonTaskCreateResult
+    );
+
+    WebInputTaskCreateInfo taskCreateInfoToWebInput(TaskCreateInfo taskCreateInfo);
+
+    @InheritInverseConfiguration
+    TaskCreateInfo taskCreateInfoFromWebInput(WebInputTaskCreateInfo webInputTaskCreateInfo);
+
+    WebInputTaskStartInfo taskStartInfoToWebInput(TaskStartInfo taskStartInfo);
+
+    @InheritInverseConfiguration
+    TaskStartInfo taskStartInfoFromWebInput(WebInputTaskStartInfo webInputTaskStartInfo);
+
+    WebInputTaskBeatInfo taskBeatInfoToWebInput(TaskBeatInfo taskBeatInfo);
+
+    @InheritInverseConfiguration
+    TaskBeatInfo taskBeatInfoFromWebInput(WebInputTaskBeatInfo webInputTaskBeatInfo);
+
+    WebInputTaskChangeStateInfo taskChangeStateInfoToWebInput(TaskChangeStateInfo taskChangeStateInfo);
+
+    @InheritInverseConfiguration
+    TaskChangeStateInfo taskChangeStateInfoFromWebInput(WebInputTaskChangeStateInfo webInputTaskChangeStateInfo);
+
+    WebInputTaskUpdateModalInfo taskUpdateModalInfoToWebInput(TaskUpdateModalInfo taskUpdateModalInfo);
+
+    @InheritInverseConfiguration
+    TaskUpdateModalInfo taskUpdateModalInfoFromWebInput(WebInputTaskUpdateModalInfo webInputTaskUpdateModalInfo);
+
+    WebInputTaskFinishInfo taskFinishInfoToWebInput(TaskFinishInfo taskFinishInfo);
+
+    @InheritInverseConfiguration
+    TaskFinishInfo taskFinishInfoFromWebInput(WebInputTaskFinishInfo webInputTaskFinishInfo);
+
+    WebInputTaskFailInfo taskFailInfoToWebInput(TaskFailInfo taskFailInfo);
+
+    @InheritInverseConfiguration
+    TaskFailInfo taskFailInfoFromWebInput(WebInputTaskFailInfo webInputTaskFailInfo);
+
+    WebInputTaskExpireInfo taskExpireInfoToWebInput(TaskExpireInfo taskExpireInfo);
+
+    @InheritInverseConfiguration
+    TaskExpireInfo taskExpireInfoFromWebInput(WebInputTaskExpireInfo webInputTaskExpireInfo);
+
+    WebInputTaskDieInfo taskDieInfoToWebInput(TaskDieInfo taskDieInfo);
+
+    @InheritInverseConfiguration
+    TaskDieInfo taskDieInfoFromWebInput(WebInputTaskDieInfo webInputTaskDieInfo);
+
+    FastJsonTaskEventCreateResult taskEventCreateResultToFastJson(TaskEventCreateResult taskEventCreateResult);
+
+    @InheritInverseConfiguration
+    TaskEventCreateResult taskEventCreateResultFromFastJson(
+            FastJsonTaskEventCreateResult fastJsonTaskEventCreateResult
+    );
+
+    JSFixedFastJsonTaskEventCreateResult taskEventCreateResultToJSFixedFastJson(
+            TaskEventCreateResult taskEventCreateResult
+    );
+
+    @InheritInverseConfiguration
+    TaskEventCreateResult taskEventCreateResultFromJSFixedFastJson(
+            JSFixedFastJsonTaskEventCreateResult jSFixedFastJsonTaskEventCreateResult
+    );
+
+    WebInputTaskEventCreateInfo taskEventCreateInfoToWebInput(TaskEventCreateInfo taskEventCreateInfo);
+
+    @InheritInverseConfiguration
+    TaskEventCreateInfo taskEventCreateInfoFromWebInput(WebInputTaskEventCreateInfo webInputTaskEventCreateInfo);
+
     FastJsonTaskVariableInspectResult taskVariableInspectResultToFastJson(
             TaskVariableInspectResult taskVariableInspectResult
     );

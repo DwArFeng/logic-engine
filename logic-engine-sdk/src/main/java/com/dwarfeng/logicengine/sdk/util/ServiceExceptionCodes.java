@@ -38,6 +38,12 @@ public final class ServiceExceptionCodes {
             new ServiceException.Code(offset(62), "guarder execution failed");
     public static final ServiceException.Code GUARDER_TYPE_UNSUPPORTED =
             new ServiceException.Code(offset(63), "guarder type unsupported");
+    public static final ServiceException.Code SECTION_NOT_EXISTS =
+            new ServiceException.Code(offset(70), "section not exists");
+    public static final ServiceException.Code TASK_STATUS_MISMATCH =
+            new ServiceException.Code(offset(80), "task status mismatch");
+    public static final ServiceException.Code INVALID_TASK_STATUS =
+            new ServiceException.Code(offset(90), "invalid task status");
 
     private static int offset(int value) {
         return EXCEPTION_CODE_OFFSET + value;
@@ -75,6 +81,9 @@ public final class ServiceExceptionCodes {
         GUARDER_MAKE_FAILED.setCode(offset(61));
         GUARDER_EXECUTION_FAILED.setCode(offset(62));
         GUARDER_TYPE_UNSUPPORTED.setCode(offset(63));
+        SECTION_NOT_EXISTS.setCode(offset(70));
+        TASK_STATUS_MISMATCH.setCode(offset(80));
+        INVALID_TASK_STATUS.setCode(offset(90));
     }
 
     private ServiceExceptionCodes() {

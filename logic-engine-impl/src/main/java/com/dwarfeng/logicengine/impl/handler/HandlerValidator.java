@@ -2,11 +2,15 @@ package com.dwarfeng.logicengine.impl.handler;
 
 import com.dwarfeng.dutil.basic.cls.ClassUtil;
 import com.dwarfeng.logicengine.sdk.util.Constants;
+import com.dwarfeng.logicengine.stack.bean.entity.Task;
 import com.dwarfeng.logicengine.stack.bean.key.TaskVariableKey;
 import com.dwarfeng.logicengine.stack.exception.InvalidTaskVariableValueTypeException;
+import com.dwarfeng.logicengine.stack.exception.SectionNotExistsException;
 import com.dwarfeng.logicengine.stack.exception.TaskNotExistsException;
+import com.dwarfeng.logicengine.stack.exception.TaskStatusMismatchException;
 import com.dwarfeng.logicengine.stack.exception.TaskVariableNotExistsException;
 import com.dwarfeng.logicengine.stack.exception.TaskVariableValueTypeMismatchException;
+import com.dwarfeng.logicengine.stack.service.SectionMaintainService;
 import com.dwarfeng.logicengine.stack.service.TaskMaintainService;
 import com.dwarfeng.logicengine.stack.service.TaskVariableMaintainService;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
@@ -16,6 +20,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * 处理器验证器。
@@ -29,15 +34,28 @@ import java.util.Objects;
 @Component
 public class HandlerValidator {
 
+    private final SectionMaintainService sectionMaintainService;
     private final TaskMaintainService taskMaintainService;
     private final TaskVariableMaintainService taskVariableMaintainService;
 
     public HandlerValidator(
+            SectionMaintainService sectionMaintainService,
             TaskMaintainService taskMaintainService,
             TaskVariableMaintainService taskVariableMaintainService
     ) {
+        this.sectionMaintainService = sectionMaintainService;
         this.taskMaintainService = taskMaintainService;
         this.taskVariableMaintainService = taskVariableMaintainService;
+    }
+
+    public void makeSureSectionExists(LongIdKey sectionKey) throws HandlerException {
+        try {
+            if (!sectionMaintainService.exists(sectionKey)) {
+                throw new SectionNotExistsException(sectionKey);
+            }
+        } catch (ServiceException e) {
+            throw new HandlerException(e);
+        }
     }
 
     public void makeSureTaskExists(LongIdKey taskKey) throws HandlerException {
@@ -54,6 +72,25 @@ public class HandlerValidator {
         try {
             if (!taskVariableMaintainService.exists(taskVariableKey)) {
                 throw new TaskVariableNotExistsException(taskVariableKey);
+            }
+        } catch (ServiceException e) {
+            throw new HandlerException(e);
+        }
+    }
+
+    public void makeSureTaskStatusValid(LongIdKey taskKey, Set<Integer> validStatusSet)
+            throws HandlerException {
+        try {
+            Task task = taskMaintainService.getIfExists(taskKey);
+            if (Objects.isNull(task)) {
+                throw new TaskNotExistsException(taskKey);
+            }
+            int status = task.getStatus();
+            if (!Constants.taskStatusSpace().contains(status)) {
+                throw new TaskStatusMismatchException(validStatusSet, status);
+            }
+            if (!validStatusSet.contains(status)) {
+                throw new TaskStatusMismatchException(validStatusSet, status);
             }
         } catch (ServiceException e) {
             throw new HandlerException(e);

@@ -49,6 +49,9 @@ public final class ServiceExceptionHelper {
         map.put(GuarderMakeException.class, ServiceExceptionCodes.GUARDER_MAKE_FAILED);
         map.put(GuarderExecutionException.class, ServiceExceptionCodes.GUARDER_EXECUTION_FAILED);
         map.put(UnsupportedGuarderTypeException.class, ServiceExceptionCodes.GUARDER_TYPE_UNSUPPORTED);
+        map.put(SectionNotExistsException.class, ServiceExceptionCodes.SECTION_NOT_EXISTS);
+        map.put(TaskStatusMismatchException.class, ServiceExceptionCodes.TASK_STATUS_MISMATCH);
+        map.put(InvalidTaskStatusException.class, ServiceExceptionCodes.INVALID_TASK_STATUS);
 
         return map;
     }
