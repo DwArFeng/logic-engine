@@ -4,6 +4,19 @@
 
 ### 功能构建
 
+- 建立实体以及维护服务，并通过单元测试。
+  - com.dwarfeng.logicengine.stack.bean.entity.DriverInfo。
+  - com.dwarfeng.logicengine.stack.bean.entity.DriverSupport。
+  - com.dwarfeng.logicengine.stack.bean.entity.GuarderInfo。
+  - com.dwarfeng.logicengine.stack.bean.entity.GuarderSupport。
+  - com.dwarfeng.logicengine.stack.bean.entity.PerformerInfo。
+  - com.dwarfeng.logicengine.stack.bean.entity.PerformerSupport。
+  - com.dwarfeng.logicengine.stack.bean.entity.Section。
+  - com.dwarfeng.logicengine.stack.bean.entity.State。
+  - com.dwarfeng.logicengine.stack.bean.entity.Task。
+  - com.dwarfeng.logicengine.stack.bean.entity.TaskEvent。
+  - com.dwarfeng.logicengine.stack.bean.entity.TaskVariable。
+
 - 项目结构建立，清理测试通过。
 
 ### Bug 修复

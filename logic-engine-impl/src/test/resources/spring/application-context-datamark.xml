@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:datamark="http://dwarfeng.com/schema/dwarfeng-datamark"
+        xmlns="http://www.springframework.org/schema/beans"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://dwarfeng.com/schema/dwarfeng-datamark
+        http://dwarfeng.com/schema/dwarfeng-datamark/dwarfeng-datamark.xsd"
+>
+
+    <!-- Section 数据标识。 -->
+    <datamark:handler
+            handler-name="sectionDatamarkHandler"
+            resource-url="${com.dwarfeng.logicengine.datamark.section.resource_url}"
+            resource-charset="${com.dwarfeng.logicengine.datamark.section.resource_charset}"
+            update-allowed="${com.dwarfeng.logicengine.datamark.section.update_allowed}"
+    />
+
+    <!-- State 数据标识。 -->
+    <datamark:handler
+            handler-name="stateDatamarkHandler"
+            resource-url="${com.dwarfeng.logicengine.datamark.state.resource_url}"
+            resource-charset="${com.dwarfeng.logicengine.datamark.state.resource_charset}"
+            update-allowed="${com.dwarfeng.logicengine.datamark.state.update_allowed}"
+    />
+
+    <!-- DriverInfo 数据标识。 -->
+    <datamark:handler
+            handler-name="driverDatamarkHandler"
+            resource-url="${com.dwarfeng.logicengine.datamark.driver_info.resource_url}"
+            resource-charset="${com.dwarfeng.logicengine.datamark.driver_info.resource_charset}"
+            update-allowed="${com.dwarfeng.logicengine.datamark.driver_info.update_allowed}"
+    />
+
+    <!-- GuarderInfo 数据标识。 -->
+    <datamark:handler
+            handler-name="guarderDatamarkHandler"
+            resource-url="${com.dwarfeng.logicengine.datamark.guarder_info.resource_url}"
+            resource-charset="${com.dwarfeng.logicengine.datamark.guarder_info.resource_charset}"
+            update-allowed="${com.dwarfeng.logicengine.datamark.guarder_info.update_allowed}"
+    />
+
+    <!-- PerformerInfo 数据标识。 -->
+    <datamark:handler
+            handler-name="performerDatamarkHandler"
+            resource-url="${com.dwarfeng.logicengine.datamark.performer_info.resource_url}"
+            resource-charset="${com.dwarfeng.logicengine.datamark.performer_info.resource_charset}"
+            update-allowed="${com.dwarfeng.logicengine.datamark.performer_info.update_allowed}"
+    />
+</beans>
