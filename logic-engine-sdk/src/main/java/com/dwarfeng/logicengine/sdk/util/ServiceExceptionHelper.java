@@ -1,5 +1,6 @@
 package com.dwarfeng.logicengine.sdk.util;
 
+import com.dwarfeng.logicengine.stack.exception.*;
 import com.dwarfeng.subgrade.stack.exception.ServiceException;
 
 import java.util.HashMap;
@@ -29,6 +30,17 @@ public final class ServiceExceptionHelper {
         if (Objects.isNull(map)) {
             map = new HashMap<>();
         }
+
+        map.put(TaskNotExistsException.class, ServiceExceptionCodes.TASK_NOT_EXISTS);
+        map.put(TaskVariableNotExistsException.class, ServiceExceptionCodes.TASK_VARIABLE_NOT_EXISTS);
+        map.put(
+                InvalidTaskVariableValueTypeException.class,
+                ServiceExceptionCodes.INVALID_TASK_VARIABLE_VALUE_TYPE
+        );
+        map.put(
+                TaskVariableValueTypeMismatchException.class,
+                ServiceExceptionCodes.TASK_VARIABLE_VALUE_TYPE_MISMATCH
+        );
 
         return map;
     }

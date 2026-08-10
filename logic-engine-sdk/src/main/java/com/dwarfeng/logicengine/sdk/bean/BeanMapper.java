@@ -1,7 +1,9 @@
 package com.dwarfeng.logicengine.sdk.bean;
 
+import com.dwarfeng.logicengine.sdk.bean.dto.*;
 import com.dwarfeng.logicengine.sdk.bean.entity.*;
 import com.dwarfeng.logicengine.sdk.bean.key.*;
+import com.dwarfeng.logicengine.stack.bean.dto.*;
 import com.dwarfeng.logicengine.stack.bean.entity.*;
 import com.dwarfeng.logicengine.stack.bean.key.StateKey;
 import com.dwarfeng.logicengine.stack.bean.key.TaskVariableKey;
@@ -237,6 +239,55 @@ public interface BeanMapper {
 
     @InheritInverseConfiguration
     TaskVariable taskVariableFromWebInput(WebInputTaskVariable webInputTaskVariable);
+
+    // endregion
+
+    // region LogicEngine DTO
+
+    FastJsonTaskVariableInspectResult taskVariableInspectResultToFastJson(
+            TaskVariableInspectResult taskVariableInspectResult
+    );
+
+    @InheritInverseConfiguration
+    TaskVariableInspectResult taskVariableInspectResultFromFastJson(
+            FastJsonTaskVariableInspectResult fastJsonTaskVariableInspectResult
+    );
+
+    JSFixedFastJsonTaskVariableInspectResult taskVariableInspectResultToJSFixedFastJson(
+            TaskVariableInspectResult taskVariableInspectResult
+    );
+
+    @InheritInverseConfiguration
+    TaskVariableInspectResult taskVariableInspectResultFromJSFixedFastJson(
+            JSFixedFastJsonTaskVariableInspectResult jSFixedFastJsonTaskVariableInspectResult
+    );
+
+    WebInputTaskVariableInspectInfo taskVariableInspectInfoToWebInput(
+            TaskVariableInspectInfo taskVariableInspectInfo
+    );
+
+    @InheritInverseConfiguration
+    TaskVariableInspectInfo taskVariableInspectInfoFromWebInput(
+            WebInputTaskVariableInspectInfo webInputTaskVariableInspectInfo
+    );
+
+    WebInputTaskVariableUpsertInfo taskVariableUpsertInfoToWebInput(
+            TaskVariableUpsertInfo taskVariableUpsertInfo
+    );
+
+    @InheritInverseConfiguration
+    TaskVariableUpsertInfo taskVariableUpsertInfoFromWebInput(
+            WebInputTaskVariableUpsertInfo webInputTaskVariableUpsertInfo
+    );
+
+    WebInputTaskVariableRemoveInfo taskVariableRemoveInfoToWebInput(
+            TaskVariableRemoveInfo taskVariableRemoveInfo
+    );
+
+    @InheritInverseConfiguration
+    TaskVariableRemoveInfo taskVariableRemoveInfoFromWebInput(
+            WebInputTaskVariableRemoveInfo webInputTaskVariableRemoveInfo
+    );
 
     // endregion
 }
