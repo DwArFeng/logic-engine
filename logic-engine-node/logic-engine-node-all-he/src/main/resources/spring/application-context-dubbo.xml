@@ -90,6 +90,11 @@
             ref="taskVariableMaintainServiceImpl"
             group="${com.dwarfeng.logicengine.dubbo.provider.group}"
     />
+    <dubbo:service
+            interface="com.dwarfeng.logicengine.stack.service.JobService"
+            ref="jobServiceImpl"
+            group="${com.dwarfeng.logicengine.dubbo.provider.group}"
+    />
 
     <!-- endregion -->
 

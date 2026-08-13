@@ -244,6 +244,28 @@ public interface BeanMapper {
 
     // region LogicEngine DTO
 
+    FastJsonJobCreateResult jobCreateResultToFastJson(JobCreateResult jobCreateResult);
+
+    @InheritInverseConfiguration
+    JobCreateResult jobCreateResultFromFastJson(FastJsonJobCreateResult fastJsonJobCreateResult);
+
+    JSFixedFastJsonJobCreateResult jobCreateResultToJSFixedFastJson(JobCreateResult jobCreateResult);
+
+    @InheritInverseConfiguration
+    JobCreateResult jobCreateResultFromJSFixedFastJson(
+            JSFixedFastJsonJobCreateResult jSFixedFastJsonJobCreateResult
+    );
+
+    WebInputJobCreateInfo jobCreateInfoToWebInput(JobCreateInfo jobCreateInfo);
+
+    @InheritInverseConfiguration
+    JobCreateInfo jobCreateInfoFromWebInput(WebInputJobCreateInfo webInputJobCreateInfo);
+
+    WebInputJobExecuteInfo jobExecuteInfoToWebInput(JobExecuteInfo jobExecuteInfo);
+
+    @InheritInverseConfiguration
+    JobExecuteInfo jobExecuteInfoFromWebInput(WebInputJobExecuteInfo webInputJobExecuteInfo);
+
     FastJsonTaskCreateResult taskCreateResultToFastJson(TaskCreateResult taskCreateResult);
 
     @InheritInverseConfiguration
