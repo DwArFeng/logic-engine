@@ -1,8 +1,11 @@
 package com.dwarfeng.logicengine.impl.handler;
 
+import com.dwarfeng.logicengine.sdk.handler.GuarderSupporter;
 import com.dwarfeng.logicengine.sdk.handler.PerformerSupporter;
+import com.dwarfeng.logicengine.stack.bean.entity.GuarderSupport;
 import com.dwarfeng.logicengine.stack.bean.entity.PerformerSupport;
 import com.dwarfeng.logicengine.stack.handler.SupportHandler;
+import com.dwarfeng.logicengine.stack.service.GuarderSupportMaintainService;
 import com.dwarfeng.logicengine.stack.service.PerformerSupportMaintainService;
 import com.dwarfeng.subgrade.sdk.exception.HandlerExceptionHelper;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
@@ -16,16 +19,49 @@ import java.util.stream.Collectors;
 @Component
 public class SupportHandlerImpl implements SupportHandler {
 
+    private final GuarderSupportMaintainService guarderSupportMaintainService;
     private final PerformerSupportMaintainService performerSupportMaintainService;
 
+    private final List<GuarderSupporter> guarderSupporters;
     private final List<PerformerSupporter> performerSupporters;
 
     public SupportHandlerImpl(
+            GuarderSupportMaintainService guarderSupportMaintainService,
             PerformerSupportMaintainService performerSupportMaintainService,
+            List<GuarderSupporter> guarderSupporters,
             List<PerformerSupporter> performerSupporters
     ) {
+        this.guarderSupportMaintainService = guarderSupportMaintainService;
         this.performerSupportMaintainService = performerSupportMaintainService;
+        this.guarderSupporters = guarderSupporters;
         this.performerSupporters = performerSupporters;
+    }
+
+    @Override
+    @BehaviorAnalyse
+    public void resetGuarder() throws HandlerException {
+        try {
+            doResetGuarder();
+        } catch (Exception e) {
+            throw HandlerExceptionHelper.parse(e);
+        }
+    }
+
+    private void doResetGuarder() throws Exception {
+        // 清除现有守卫器支持信息。
+        List<StringIdKey> guarderKeys = guarderSupportMaintainService.lookupAsList().stream()
+                .map(GuarderSupport::getKey).collect(Collectors.toList());
+        guarderSupportMaintainService.batchDelete(guarderKeys);
+        // 根据当前注册的守卫器支持器重新生成守卫器支持信息。
+        List<GuarderSupport> guarderSupports = guarderSupporters.stream().map(
+                supporter -> new GuarderSupport(
+                        new StringIdKey(supporter.provideType()),
+                        supporter.provideLabel(),
+                        supporter.provideDescription(),
+                        supporter.provideExampleParam()
+                )
+        ).collect(Collectors.toList());
+        guarderSupportMaintainService.batchInsert(guarderSupports);
     }
 
     @Override

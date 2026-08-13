@@ -45,6 +45,10 @@ public final class ServiceExceptionHelper {
         map.put(PerformerMakeException.class, ServiceExceptionCodes.PERFORMER_MAKE_FAILED);
         map.put(PerformerExecutionException.class, ServiceExceptionCodes.PERFORMER_EXECUTION_FAILED);
         map.put(UnsupportedPerformerTypeException.class, ServiceExceptionCodes.PERFORMER_TYPE_UNSUPPORTED);
+        map.put(GuarderException.class, ServiceExceptionCodes.GUARDER_FAILED);
+        map.put(GuarderMakeException.class, ServiceExceptionCodes.GUARDER_MAKE_FAILED);
+        map.put(GuarderExecutionException.class, ServiceExceptionCodes.GUARDER_EXECUTION_FAILED);
+        map.put(UnsupportedGuarderTypeException.class, ServiceExceptionCodes.GUARDER_TYPE_UNSUPPORTED);
 
         return map;
     }

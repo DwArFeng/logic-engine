@@ -30,6 +30,14 @@ public final class ServiceExceptionCodes {
             new ServiceException.Code(offset(52), "performer execution failed");
     public static final ServiceException.Code PERFORMER_TYPE_UNSUPPORTED =
             new ServiceException.Code(offset(53), "performer type unsupported");
+    public static final ServiceException.Code GUARDER_FAILED =
+            new ServiceException.Code(offset(60), "guarder failed");
+    public static final ServiceException.Code GUARDER_MAKE_FAILED =
+            new ServiceException.Code(offset(61), "guarder make failed");
+    public static final ServiceException.Code GUARDER_EXECUTION_FAILED =
+            new ServiceException.Code(offset(62), "guarder execution failed");
+    public static final ServiceException.Code GUARDER_TYPE_UNSUPPORTED =
+            new ServiceException.Code(offset(63), "guarder type unsupported");
 
     private static int offset(int value) {
         return EXCEPTION_CODE_OFFSET + value;
@@ -63,6 +71,10 @@ public final class ServiceExceptionCodes {
         PERFORMER_MAKE_FAILED.setCode(offset(51));
         PERFORMER_EXECUTION_FAILED.setCode(offset(52));
         PERFORMER_TYPE_UNSUPPORTED.setCode(offset(53));
+        GUARDER_FAILED.setCode(offset(60));
+        GUARDER_MAKE_FAILED.setCode(offset(61));
+        GUARDER_EXECUTION_FAILED.setCode(offset(62));
+        GUARDER_TYPE_UNSUPPORTED.setCode(offset(63));
     }
 
     private ServiceExceptionCodes() {

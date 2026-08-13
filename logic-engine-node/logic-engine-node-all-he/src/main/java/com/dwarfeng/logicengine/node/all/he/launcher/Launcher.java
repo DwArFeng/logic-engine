@@ -18,7 +18,6 @@ public class Launcher {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(Launcher.class);
 
-    @SuppressWarnings("Convert2MethodRef")
     public static void main(String[] args) {
         ApplicationUtil.launch(new String[]{
                 "classpath:spring/application-context*.xml",
@@ -27,6 +26,9 @@ public class Launcher {
         }, ctx -> {
             // 根据启动器设置处理器的设置，选择性重置执行器。
             mayResetPerformer(ctx);
+
+            // 根据启动器设置处理器的设置，选择性重置守卫器。
+            mayResetGuarder(ctx);
         });
     }
 
@@ -46,6 +48,25 @@ public class Launcher {
             supportQosService.resetPerformer();
         } catch (ServiceException e) {
             LOGGER.warn("执行器支持重置失败，异常信息如下", e);
+        }
+    }
+
+    private static void mayResetGuarder(ApplicationContext ctx) {
+        // 获取启动器设置处理器，用于获取启动器设置，并按照设置选择性执行功能。
+        LauncherSettingHandler launcherSettingHandler = ctx.getBean(LauncherSettingHandler.class);
+
+        // 如果不重置守卫器，则返回。
+        if (!launcherSettingHandler.isResetGuarderSupport()) {
+            return;
+        }
+
+        // 重置守卫器支持。
+        LOGGER.info("重置守卫器支持...");
+        SupportQosService supportQosService = ctx.getBean(SupportQosService.class);
+        try {
+            supportQosService.resetGuarder();
+        } catch (ServiceException e) {
+            LOGGER.warn("守卫器支持重置失败，异常信息如下", e);
         }
     }
 }

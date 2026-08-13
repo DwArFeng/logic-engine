@@ -4,10 +4,15 @@
 
 ### 功能构建
 
+- 实现预设守卫器。
+  - com.dwarfeng.logicengine.impl.handler.guarder.always.AlwaysGuarderRegistry。
+  - com.dwarfeng.logicengine.impl.handler.guarder.groovy.GroovyGuarderRegistry。
+
 - 实现预设执行器。
   - com.dwarfeng.logicengine.impl.handler.performer.groovy.GroovyPerformerRegistry。
 
 - 实现核心机制。
+  - 守卫机制。
   - 执行机制。
 
 - 完成 `logic-engine-node-all-he` 模块，启动测试通过。

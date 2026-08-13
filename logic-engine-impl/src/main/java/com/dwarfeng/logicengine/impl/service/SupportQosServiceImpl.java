@@ -22,6 +22,15 @@ public class SupportQosServiceImpl implements SupportQosService {
     }
 
     @Override
+    public void resetGuarder() throws ServiceException {
+        try {
+            supportHandler.resetGuarder();
+        } catch (HandlerException e) {
+            throw ServiceExceptionHelper.logParse("重置守卫器时发生异常", LogLevel.WARN, e, sem);
+        }
+    }
+
+    @Override
     public void resetPerformer() throws ServiceException {
         try {
             supportHandler.resetPerformer();
