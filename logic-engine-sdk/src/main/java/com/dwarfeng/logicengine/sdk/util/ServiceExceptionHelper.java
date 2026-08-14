@@ -55,6 +55,9 @@ public final class ServiceExceptionHelper {
         map.put(ReceiverException.class, ServiceExceptionCodes.RECEIVER_FAILED);
         map.put(ReceiverNotStartException.class, ServiceExceptionCodes.RECEIVER_NOT_START);
         map.put(ReceiverExecutionException.class, ServiceExceptionCodes.RECEIVER_EXECUTION_FAILED);
+        map.put(DispatcherException.class, ServiceExceptionCodes.DISPATCHER_FAILED);
+        map.put(DispatcherNotStartException.class, ServiceExceptionCodes.DISPATCHER_NOT_START);
+        map.put(DispatcherExecutionException.class, ServiceExceptionCodes.DISPATCHER_EXECUTION_FAILED);
 
         return map;
     }

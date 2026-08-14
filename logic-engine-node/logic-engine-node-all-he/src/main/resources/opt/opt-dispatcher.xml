@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--suppress SpringFacetInspection -->
+<beans
+        xmlns:context="http://www.springframework.org/schema/context"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.springframework.org/schema/beans"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd"
+>
+
+    <!-- 扫描调度器的实现包。 -->
+    <context:component-scan
+            base-package="com.dwarfeng.logicengine.impl.handler.dispatcher" use-default-filters="false"
+    >
+        <!-- 加载 DrainDispatcher -->
+        <!--
+        <context:include-filter
+                type="assignable" expression="com.dwarfeng.logicengine.impl.handler.dispatcher.DrainDispatcher"
+        />
+        -->
+
+        <!-- 加载 InjvmDispatcher -->
+        <!--
+        <context:include-filter
+                type="assignable" expression="com.dwarfeng.logicengine.impl.handler.dispatcher.InjvmDispatcher"
+        />
+        -->
+
+        <!-- 加载 KafkaDispatcher -->
+        <!--
+        <context:include-filter
+                type="assignable" expression="com.dwarfeng.logicengine.impl.handler.dispatcher.KafkaDispatcher"
+        />
+        -->
+
+        <!-- 加载 DubboDispatcher -->
+        <!--
+        <context:include-filter
+                type="assignable" expression="com.dwarfeng.logicengine.impl.handler.dispatcher.DubboDispatcher"
+        />
+        -->
+    </context:component-scan>
+</beans>

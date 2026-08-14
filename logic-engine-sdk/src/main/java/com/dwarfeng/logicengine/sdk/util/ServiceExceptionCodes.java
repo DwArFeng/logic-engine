@@ -50,6 +50,12 @@ public final class ServiceExceptionCodes {
             new ServiceException.Code(offset(101), "receiver not start");
     public static final ServiceException.Code RECEIVER_EXECUTION_FAILED =
             new ServiceException.Code(offset(102), "receiver execution failed");
+    public static final ServiceException.Code DISPATCHER_FAILED =
+            new ServiceException.Code(offset(110), "dispatcher failed");
+    public static final ServiceException.Code DISPATCHER_NOT_START =
+            new ServiceException.Code(offset(111), "dispatcher not start");
+    public static final ServiceException.Code DISPATCHER_EXECUTION_FAILED =
+            new ServiceException.Code(offset(112), "dispatcher execution failed");
 
     private static int offset(int value) {
         return EXCEPTION_CODE_OFFSET + value;
@@ -93,6 +99,9 @@ public final class ServiceExceptionCodes {
         RECEIVER_FAILED.setCode(offset(100));
         RECEIVER_NOT_START.setCode(offset(101));
         RECEIVER_EXECUTION_FAILED.setCode(offset(102));
+        DISPATCHER_FAILED.setCode(offset(110));
+        DISPATCHER_NOT_START.setCode(offset(111));
+        DISPATCHER_EXECUTION_FAILED.setCode(offset(112));
     }
 
     private ServiceExceptionCodes() {
