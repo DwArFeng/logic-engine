@@ -4,6 +4,13 @@
 
 ### 功能构建
 
+- 实现预设重置器。
+  - com.dwarfeng.logicengine.impl.handler.resetter.CronResetter。
+  - com.dwarfeng.logicengine.impl.handler.resetter.DubboResetter。
+  - com.dwarfeng.logicengine.impl.handler.resetter.FixedDelayResetter。
+  - com.dwarfeng.logicengine.impl.handler.resetter.FixedRateResetter。
+  - com.dwarfeng.logicengine.impl.handler.resetter.NeverResetter。
+
 - 实现预设驱动器。
   - com.dwarfeng.logicengine.impl.handler.driver.CronDriverProvider。
   - com.dwarfeng.logicengine.impl.handler.driver.DctiKafkaDriverProvider。
@@ -30,6 +37,7 @@
   - com.dwarfeng.logicengine.impl.handler.performer.groovy.GroovyPerformerRegistry。
 
 - 实现核心机制。
+  - 重置机制。
   - 清除机制。
   - 主管机制。
   - 驱动机制。

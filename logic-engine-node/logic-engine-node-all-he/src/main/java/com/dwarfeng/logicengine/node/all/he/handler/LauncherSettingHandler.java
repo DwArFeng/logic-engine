@@ -37,6 +37,9 @@ public class LauncherSettingHandler implements Handler {
     @Value("${com.dwarfeng.logicengine.launcher.enable_purge_delay}")
     private long enablePurgeDelay;
 
+    @Value("${com.dwarfeng.logicengine.launcher.start_reset_delay}")
+    private long startResetDelay;
+
     public boolean isResetPerformerSupport() {
         return resetPerformerSupport;
     }
@@ -77,6 +80,10 @@ public class LauncherSettingHandler implements Handler {
         return enablePurgeDelay;
     }
 
+    public long getStartResetDelay() {
+        return startResetDelay;
+    }
+
     @Override
     public String toString() {
         return "LauncherSettingHandler{" +
@@ -90,6 +97,7 @@ public class LauncherSettingHandler implements Handler {
                 ", enableSuperviseDelay=" + enableSuperviseDelay +
                 ", onlinePurgeDelay=" + onlinePurgeDelay +
                 ", enablePurgeDelay=" + enablePurgeDelay +
+                ", startResetDelay=" + startResetDelay +
                 '}';
     }
 }
