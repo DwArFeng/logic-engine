@@ -2,6 +2,7 @@ package com.dwarfeng.logicengine.node.all.he.launcher;
 
 import com.dwarfeng.logicengine.node.all.he.handler.LauncherSettingHandler;
 import com.dwarfeng.logicengine.stack.service.ReceiveQosService;
+import com.dwarfeng.logicengine.stack.service.SuperviseQosService;
 import com.dwarfeng.logicengine.stack.service.SupportQosService;
 import com.dwarfeng.logicengine.stack.service.TaskCheckQosService;
 import com.dwarfeng.springterminator.sdk.util.ApplicationUtil;
@@ -45,6 +46,11 @@ public class Launcher {
 
             // 根据启动器设置处理器的设置，选择性启动接收服务。
             mayStartReceive(ctx);
+
+            // 根据启动器设置处理器的设置，选择性上线主管服务。
+            mayOnlineSupervise(ctx);
+            // 根据启动器设置处理器的设置，选择性启动主管服务。
+            mayEnableSupervise(ctx);
         });
     }
 
@@ -206,6 +212,76 @@ public class Launcher {
                         }
                     },
                     new Date(System.currentTimeMillis() + startReceiveDelay)
+            );
+        }
+    }
+
+    private static void mayOnlineSupervise(ApplicationContext ctx) {
+        // 获取启动器设置处理器，用于获取启动器设置，并按照设置选择性执行功能。
+        LauncherSettingHandler launcherSettingHandler = ctx.getBean(LauncherSettingHandler.class);
+
+        // 获取程序中的 ThreadPoolTaskScheduler，用于处理计划任务。
+        ThreadPoolTaskScheduler scheduler = ctx.getBean(ThreadPoolTaskScheduler.class);
+
+        // 获取主管 QoS 服务。
+        SuperviseQosService superviseQosService = ctx.getBean(SuperviseQosService.class);
+
+        // 判断主管处理器是否上线主管服务，并按条件执行不同的操作。
+        long onlineSuperviseDelay = launcherSettingHandler.getOnlineSuperviseDelay();
+        if (onlineSuperviseDelay == 0) {
+            LOGGER.info("立即上线主管服务...");
+            try {
+                superviseQosService.online();
+            } catch (ServiceException e) {
+                LOGGER.error("无法上线主管服务，异常原因如下", e);
+            }
+        } else if (onlineSuperviseDelay > 0) {
+            LOGGER.info("{} 毫秒后上线主管服务...", onlineSuperviseDelay);
+            scheduler.schedule(
+                    () -> {
+                        LOGGER.info("上线主管服务...");
+                        try {
+                            superviseQosService.online();
+                        } catch (ServiceException e) {
+                            LOGGER.error("无法上线主管服务，异常原因如下", e);
+                        }
+                    },
+                    new Date(System.currentTimeMillis() + onlineSuperviseDelay)
+            );
+        }
+    }
+
+    private static void mayEnableSupervise(ApplicationContext ctx) {
+        // 获取启动器设置处理器，用于获取启动器设置，并按照设置选择性执行功能。
+        LauncherSettingHandler launcherSettingHandler = ctx.getBean(LauncherSettingHandler.class);
+
+        // 获取程序中的 ThreadPoolTaskScheduler，用于处理计划任务。
+        ThreadPoolTaskScheduler scheduler = ctx.getBean(ThreadPoolTaskScheduler.class);
+
+        // 获取主管 QoS 服务。
+        SuperviseQosService superviseQosService = ctx.getBean(SuperviseQosService.class);
+
+        // 判断主管处理器是否启动主管服务，并按条件执行不同的操作。
+        long enableSuperviseDelay = launcherSettingHandler.getEnableSuperviseDelay();
+        if (enableSuperviseDelay == 0) {
+            LOGGER.info("立即启动主管服务...");
+            try {
+                superviseQosService.start();
+            } catch (ServiceException e) {
+                LOGGER.error("无法启动主管服务，异常原因如下", e);
+            }
+        } else if (enableSuperviseDelay > 0) {
+            LOGGER.info("{} 毫秒后启动主管服务...", enableSuperviseDelay);
+            scheduler.schedule(
+                    () -> {
+                        LOGGER.info("启动主管服务...");
+                        try {
+                            superviseQosService.start();
+                        } catch (ServiceException e) {
+                            LOGGER.error("无法启动主管服务，异常原因如下", e);
+                        }
+                    },
+                    new Date(System.currentTimeMillis() + enableSuperviseDelay)
             );
         }
     }

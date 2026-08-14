@@ -25,6 +25,12 @@ public class LauncherSettingHandler implements Handler {
     @Value("${com.dwarfeng.logicengine.launcher.start_receive_delay}")
     private long startReceiveDelay;
 
+    @Value("${com.dwarfeng.logicengine.launcher.online_supervise_delay}")
+    private long onlineSuperviseDelay;
+
+    @Value("${com.dwarfeng.logicengine.launcher.enable_supervise_delay}")
+    private long enableSuperviseDelay;
+
     public boolean isResetPerformerSupport() {
         return resetPerformerSupport;
     }
@@ -49,6 +55,14 @@ public class LauncherSettingHandler implements Handler {
         return startReceiveDelay;
     }
 
+    public long getOnlineSuperviseDelay() {
+        return onlineSuperviseDelay;
+    }
+
+    public long getEnableSuperviseDelay() {
+        return enableSuperviseDelay;
+    }
+
     @Override
     public String toString() {
         return "LauncherSettingHandler{" +
@@ -58,6 +72,8 @@ public class LauncherSettingHandler implements Handler {
                 ", onlineTaskCheckDelay=" + onlineTaskCheckDelay +
                 ", enableTaskCheckDelay=" + enableTaskCheckDelay +
                 ", startReceiveDelay=" + startReceiveDelay +
+                ", onlineSuperviseDelay=" + onlineSuperviseDelay +
+                ", enableSuperviseDelay=" + enableSuperviseDelay +
                 '}';
     }
 }
