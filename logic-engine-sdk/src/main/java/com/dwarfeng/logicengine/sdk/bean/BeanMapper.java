@@ -389,5 +389,21 @@ public interface BeanMapper {
             WebInputTaskVariableRemoveInfo webInputTaskVariableRemoveInfo
     );
 
+    FastJsonPurgeFinishedResult purgeFinishedResultToFastJson(PurgeFinishedResult purgeFinishedResult);
+
+    @InheritInverseConfiguration
+    PurgeFinishedResult purgeFinishedResultFromFastJson(
+            FastJsonPurgeFinishedResult fastJsonPurgeFinishedResult
+    );
+
+    JSFixedFastJsonPurgeFinishedResult purgeFinishedResultToJSFixedFastJson(
+            PurgeFinishedResult purgeFinishedResult
+    );
+
+    @InheritInverseConfiguration
+    PurgeFinishedResult purgeFinishedResultFromJSFixedFastJson(
+            JSFixedFastJsonPurgeFinishedResult jSFixedFastJsonPurgeFinishedResult
+    );
+
     // endregion
 }

@@ -26,6 +26,7 @@ public interface TaskMaintainService extends BatchCrudService<LongIdKey, Task>, 
 
     String SHOULD_EXPIRE = "should_expire";
     String SHOULD_DIE = "should_die";
+    String TO_PURGED = "to_purged";
 
     // endregion
 }

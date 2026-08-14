@@ -30,6 +30,7 @@
   - com.dwarfeng.logicengine.impl.handler.performer.groovy.GroovyPerformerRegistry。
 
 - 实现核心机制。
+  - 清除机制。
   - 主管机制。
   - 驱动机制。
   - 调度机制。
