@@ -1,0 +1,175 @@
+package com.dwarfeng.logicengine.impl.handler;
+
+import com.dwarfeng.logicengine.stack.bean.dto.TaskDieInfo;
+import com.dwarfeng.logicengine.stack.bean.dto.TaskExpireInfo;
+import com.dwarfeng.logicengine.stack.bean.entity.Task;
+import com.dwarfeng.logicengine.stack.handler.TaskCheckHandler;
+import com.dwarfeng.logicengine.stack.handler.TaskOperateHandler;
+import com.dwarfeng.logicengine.stack.service.TaskMaintainService;
+import com.dwarfeng.subgrade.impl.handler.CuratorDistributedLockHandler;
+import com.dwarfeng.subgrade.impl.handler.Worker;
+import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
+import com.dwarfeng.subgrade.stack.exception.HandlerException;
+import org.apache.curator.framework.CuratorFramework;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
+import org.springframework.scheduling.support.CronTrigger;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.Future;
+
+@Component
+public class TaskCheckHandlerImpl implements TaskCheckHandler {
+
+    private final CuratorDistributedLockHandler handler;
+
+    public TaskCheckHandlerImpl(
+            CuratorFramework curatorFramework,
+            @Value("${com.dwarfeng.logicengine.curator.latch_path.task_check.leader_latch}") String leaderLatchPath,
+            TaskCheckWorker taskCheckWorker
+    ) {
+        handler = new CuratorDistributedLockHandler(curatorFramework, leaderLatchPath, taskCheckWorker);
+    }
+
+    @BehaviorAnalyse
+    @Override
+    public boolean isOnline() {
+        return handler.isOnline();
+    }
+
+    @BehaviorAnalyse
+    @Override
+    public void online() throws HandlerException {
+        handler.online();
+    }
+
+    @BehaviorAnalyse
+    @Override
+    public void offline() throws HandlerException {
+        handler.offline();
+    }
+
+    @BehaviorAnalyse
+    @Override
+    public boolean isStarted() {
+        return handler.isStarted();
+    }
+
+    @BehaviorAnalyse
+    @Override
+    public void start() throws HandlerException {
+        handler.start();
+    }
+
+    @BehaviorAnalyse
+    @Override
+    public void stop() throws HandlerException {
+        handler.stop();
+    }
+
+    @BehaviorAnalyse
+    @Override
+    public boolean isLockHolding() {
+        return handler.isLockHolding();
+    }
+
+    @BehaviorAnalyse
+    @Override
+    public boolean isWorking() {
+        return handler.isWorking();
+    }
+
+    @Component
+    public static class TaskCheckWorker implements Worker {
+
+        private static final Logger LOGGER = LoggerFactory.getLogger(TaskCheckWorker.class);
+
+        private final TaskMaintainService taskMaintainService;
+        private final TaskOperateHandler taskOperateHandler;
+        private final ThreadPoolTaskScheduler scheduler;
+
+        @Value("${com.dwarfeng.logicengine.task.check.expire_check.cron}")
+        private String expireCheckCron;
+        @Value("${com.dwarfeng.logicengine.task.check.die_check.cron}")
+        private String dieCheckCron;
+
+        private Future<?> expireCheckFuture;
+        private Future<?> dieCheckFuture;
+
+        public TaskCheckWorker(
+                TaskMaintainService taskMaintainService,
+                TaskOperateHandler taskOperateHandler,
+                ThreadPoolTaskScheduler scheduler
+        ) {
+            this.taskMaintainService = taskMaintainService;
+            this.taskOperateHandler = taskOperateHandler;
+            this.scheduler = scheduler;
+        }
+
+        @Override
+        public void work() {
+            if (Objects.isNull(expireCheckFuture)) {
+                expireCheckFuture = scheduler.schedule(this::expireCheck, new CronTrigger(expireCheckCron));
+            }
+            if (Objects.isNull(dieCheckFuture)) {
+                dieCheckFuture = scheduler.schedule(this::dieCheck, new CronTrigger(dieCheckCron));
+            }
+        }
+
+        @Override
+        public void rest() {
+            if (Objects.nonNull(expireCheckFuture)) {
+                expireCheckFuture.cancel(true);
+                expireCheckFuture = null;
+            }
+            if (Objects.nonNull(dieCheckFuture)) {
+                dieCheckFuture.cancel(true);
+                dieCheckFuture = null;
+            }
+        }
+
+        /**
+         * 检查并过期超过启动等待时间的任务。
+         */
+        public void expireCheck() {
+            try {
+                LOGGER.info("检查过期任务...");
+
+                // 获取所有应该过期的任务。
+                List<Task> tasksToExpire = taskMaintainService.lookupAsList(
+                        TaskMaintainService.SHOULD_EXPIRE, new Object[0]
+                );
+                // 调用操作处理器，将应该过期的任务设置为过期。
+                for (Task task : tasksToExpire) {
+                    taskOperateHandler.expire(new TaskExpireInfo(task.getKey()));
+                }
+            } catch (Exception e) {
+                LOGGER.warn("检查过期任务时发生异常，异常信息如下", e);
+            }
+        }
+
+        /**
+         * 检查并死亡超过心跳等待时间的任务。
+         */
+        public void dieCheck() {
+            try {
+                LOGGER.info("检查死亡任务...");
+
+                // 获取所有应该死亡的任务。
+                List<Task> tasksToDie = taskMaintainService.lookupAsList(
+                        TaskMaintainService.SHOULD_DIE, new Object[0]
+                );
+                // 调用操作处理器，将应该死亡的任务设置为死亡。
+                for (Task task : tasksToDie) {
+                    taskOperateHandler.die(new TaskDieInfo(task.getKey()));
+                }
+            } catch (Exception e) {
+                LOGGER.warn("检查死亡任务时发生异常，异常信息如下", e);
+            }
+        }
+    }
+}

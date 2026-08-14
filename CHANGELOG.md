@@ -12,6 +12,7 @@
   - com.dwarfeng.logicengine.impl.handler.performer.groovy.GroovyPerformerRegistry。
 
 - 实现核心机制。
+  - 任务检查机制。
   - 作业机制。
   - 守卫机制。
   - 执行机制。

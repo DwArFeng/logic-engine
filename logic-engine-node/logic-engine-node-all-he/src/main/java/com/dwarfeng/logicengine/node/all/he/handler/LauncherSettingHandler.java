@@ -13,6 +13,12 @@ public class LauncherSettingHandler implements Handler {
     @Value("${com.dwarfeng.logicengine.launcher.reset_guarder_support}")
     private boolean resetGuarderSupport;
 
+    @Value("${com.dwarfeng.logicengine.launcher.online_task_check_delay}")
+    private long onlineTaskCheckDelay;
+
+    @Value("${com.dwarfeng.logicengine.launcher.enable_task_check_delay}")
+    private long enableTaskCheckDelay;
+
     public boolean isResetPerformerSupport() {
         return resetPerformerSupport;
     }
@@ -21,11 +27,21 @@ public class LauncherSettingHandler implements Handler {
         return resetGuarderSupport;
     }
 
+    public long getOnlineTaskCheckDelay() {
+        return onlineTaskCheckDelay;
+    }
+
+    public long getEnableTaskCheckDelay() {
+        return enableTaskCheckDelay;
+    }
+
     @Override
     public String toString() {
         return "LauncherSettingHandler{" +
                 "resetPerformerSupport=" + resetPerformerSupport +
                 ", resetGuarderSupport=" + resetGuarderSupport +
+                ", onlineTaskCheckDelay=" + onlineTaskCheckDelay +
+                ", enableTaskCheckDelay=" + enableTaskCheckDelay +
                 '}';
     }
 }
