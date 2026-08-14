@@ -13,6 +13,9 @@ public class LauncherSettingHandler implements Handler {
     @Value("${com.dwarfeng.logicengine.launcher.reset_guarder_support}")
     private boolean resetGuarderSupport;
 
+    @Value("${com.dwarfeng.logicengine.launcher.reset_driver_support}")
+    private boolean resetDriverSupport;
+
     @Value("${com.dwarfeng.logicengine.launcher.online_task_check_delay}")
     private long onlineTaskCheckDelay;
 
@@ -28,6 +31,10 @@ public class LauncherSettingHandler implements Handler {
 
     public boolean isResetGuarderSupport() {
         return resetGuarderSupport;
+    }
+
+    public boolean isResetDriverSupport() {
+        return resetDriverSupport;
     }
 
     public long getOnlineTaskCheckDelay() {
@@ -47,6 +54,7 @@ public class LauncherSettingHandler implements Handler {
         return "LauncherSettingHandler{" +
                 "resetPerformerSupport=" + resetPerformerSupport +
                 ", resetGuarderSupport=" + resetGuarderSupport +
+                ", resetDriverSupport=" + resetDriverSupport +
                 ", onlineTaskCheckDelay=" + onlineTaskCheckDelay +
                 ", enableTaskCheckDelay=" + enableTaskCheckDelay +
                 ", startReceiveDelay=" + startReceiveDelay +

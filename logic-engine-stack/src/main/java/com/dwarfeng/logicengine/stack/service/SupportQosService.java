@@ -12,6 +12,14 @@ import com.dwarfeng.subgrade.stack.service.Service;
 public interface SupportQosService extends Service {
 
     /**
+     * 重置驱动器。
+     *
+     * @throws ServiceException 服务异常。
+     * @since 1.0.0
+     */
+    void resetDriver() throws ServiceException;
+
+    /**
      * 重置守卫器。
      *
      * @throws ServiceException 服务异常。

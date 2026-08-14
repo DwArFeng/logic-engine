@@ -13,6 +13,7 @@
     <context:component-scan base-package="com.dwarfeng.logicengine.impl.service"/>
     <!-- 扫描 handler 的实现包。 -->
     <context:component-scan base-package="com.dwarfeng.logicengine.impl.handler">
+        <context:exclude-filter type="regex" expression="^com\.dwarfeng\.logicengine\.impl\.handler\.driver\..*$"/>
         <context:exclude-filter type="regex" expression="^com\.dwarfeng\.logicengine\.impl\.handler\.guarder\..*$"/>
         <context:exclude-filter type="regex" expression="^com\.dwarfeng\.logicengine\.impl\.handler\.performer\..*$"/>
         <context:exclude-filter type="regex" expression="^com\.dwarfeng\.logicengine\.impl\.handler\.receiver\..*$"/>

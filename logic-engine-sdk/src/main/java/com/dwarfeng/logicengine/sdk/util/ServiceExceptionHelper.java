@@ -58,6 +58,8 @@ public final class ServiceExceptionHelper {
         map.put(DispatcherException.class, ServiceExceptionCodes.DISPATCHER_FAILED);
         map.put(DispatcherNotStartException.class, ServiceExceptionCodes.DISPATCHER_NOT_START);
         map.put(DispatcherExecutionException.class, ServiceExceptionCodes.DISPATCHER_EXECUTION_FAILED);
+        map.put(DriverException.class, ServiceExceptionCodes.DRIVER_FAILED);
+        map.put(UnsupportedDriverTypeException.class, ServiceExceptionCodes.DRIVER_TYPE_UNSUPPORTED);
 
         return map;
     }

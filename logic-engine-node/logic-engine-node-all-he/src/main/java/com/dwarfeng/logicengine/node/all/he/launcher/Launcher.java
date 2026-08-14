@@ -35,6 +35,9 @@ public class Launcher {
             // 根据启动器设置处理器的设置，选择性重置守卫器。
             mayResetGuarder(ctx);
 
+            // 根据启动器设置处理器的设置，选择性重置驱动器。
+            mayResetDriver(ctx);
+
             // 根据启动器设置处理器的设置，选择性上线任务检查服务。
             mayOnlineTaskCheck(ctx);
             // 根据启动器设置处理器的设置，选择性启动任务检查服务。
@@ -80,6 +83,25 @@ public class Launcher {
             supportQosService.resetGuarder();
         } catch (ServiceException e) {
             LOGGER.warn("守卫器支持重置失败，异常信息如下", e);
+        }
+    }
+
+    private static void mayResetDriver(ApplicationContext ctx) {
+        // 获取启动器设置处理器，用于获取启动器设置，并按照设置选择性执行功能。
+        LauncherSettingHandler launcherSettingHandler = ctx.getBean(LauncherSettingHandler.class);
+
+        // 如果不重置驱动器，则返回。
+        if (!launcherSettingHandler.isResetDriverSupport()) {
+            return;
+        }
+
+        // 重置驱动器支持。
+        LOGGER.info("重置驱动器支持...");
+        SupportQosService supportQosService = ctx.getBean(SupportQosService.class);
+        try {
+            supportQosService.resetDriver();
+        } catch (ServiceException e) {
+            LOGGER.warn("驱动器支持重置失败，异常信息如下", e);
         }
     }
 

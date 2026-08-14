@@ -4,6 +4,12 @@
 
 ### 功能构建
 
+- 实现预设驱动器。
+  - com.dwarfeng.logicengine.impl.handler.driver.CronDriverProvider。
+  - com.dwarfeng.logicengine.impl.handler.driver.DctiKafkaDriverProvider。
+  - com.dwarfeng.logicengine.impl.handler.driver.FixedDelayDriverProvider。
+  - com.dwarfeng.logicengine.impl.handler.driver.FixedRateDriverProvider。
+
 - 实现预设调度器。
   - com.dwarfeng.logicengine.impl.handler.dispatcher.DrainDispatcher。
   - com.dwarfeng.logicengine.impl.handler.dispatcher.DubboDispatcher。
@@ -24,6 +30,7 @@
   - com.dwarfeng.logicengine.impl.handler.performer.groovy.GroovyPerformerRegistry。
 
 - 实现核心机制。
+  - 驱动机制。
   - 调度机制。
   - 接收机制。
   - 任务检查机制。

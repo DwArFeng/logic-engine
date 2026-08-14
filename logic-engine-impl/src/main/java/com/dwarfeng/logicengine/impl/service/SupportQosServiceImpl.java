@@ -22,6 +22,15 @@ public class SupportQosServiceImpl implements SupportQosService {
     }
 
     @Override
+    public void resetDriver() throws ServiceException {
+        try {
+            supportHandler.resetDriver();
+        } catch (HandlerException e) {
+            throw ServiceExceptionHelper.logParse("重置驱动器时发生异常", LogLevel.WARN, e, sem);
+        }
+    }
+
+    @Override
     public void resetGuarder() throws ServiceException {
         try {
             supportHandler.resetGuarder();

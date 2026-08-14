@@ -12,6 +12,14 @@ import com.dwarfeng.subgrade.stack.handler.Handler;
 public interface SupportHandler extends Handler {
 
     /**
+     * 重置驱动器。
+     *
+     * @throws HandlerException 处理器异常。
+     * @since 1.0.0
+     */
+    void resetDriver() throws HandlerException;
+
+    /**
      * 重置守卫器。
      *
      * @throws HandlerException 处理器异常。
