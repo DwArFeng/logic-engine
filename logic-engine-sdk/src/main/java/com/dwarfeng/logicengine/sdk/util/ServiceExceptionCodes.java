@@ -44,6 +44,12 @@ public final class ServiceExceptionCodes {
             new ServiceException.Code(offset(80), "task status mismatch");
     public static final ServiceException.Code INVALID_TASK_STATUS =
             new ServiceException.Code(offset(90), "invalid task status");
+    public static final ServiceException.Code RECEIVER_FAILED =
+            new ServiceException.Code(offset(100), "receiver failed");
+    public static final ServiceException.Code RECEIVER_NOT_START =
+            new ServiceException.Code(offset(101), "receiver not start");
+    public static final ServiceException.Code RECEIVER_EXECUTION_FAILED =
+            new ServiceException.Code(offset(102), "receiver execution failed");
 
     private static int offset(int value) {
         return EXCEPTION_CODE_OFFSET + value;
@@ -84,6 +90,9 @@ public final class ServiceExceptionCodes {
         SECTION_NOT_EXISTS.setCode(offset(70));
         TASK_STATUS_MISMATCH.setCode(offset(80));
         INVALID_TASK_STATUS.setCode(offset(90));
+        RECEIVER_FAILED.setCode(offset(100));
+        RECEIVER_NOT_START.setCode(offset(101));
+        RECEIVER_EXECUTION_FAILED.setCode(offset(102));
     }
 
     private ServiceExceptionCodes() {

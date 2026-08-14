@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--suppress SpringFacetInspection -->
+<beans
+        xmlns:context="http://www.springframework.org/schema/context"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.springframework.org/schema/beans"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd"
+>
+
+    <!-- 扫描接收器的实现包。 -->
+    <context:component-scan
+            base-package="com.dwarfeng.logicengine.impl.handler.receiver" use-default-filters="false"
+    >
+        <!-- 加载 DoNothingReceiver。 -->
+        <!--
+        <context:include-filter
+                type="assignable" expression="com.dwarfeng.logicengine.impl.handler.receiver.DoNothingReceiver"
+        />
+        -->
+
+        <!-- 加载 InjvmReceiver。 -->
+        <!--
+        <context:include-filter
+                type="assignable" expression="com.dwarfeng.logicengine.impl.handler.receiver.InjvmReceiver"
+        />
+        -->
+
+        <!-- 加载 KafkaReceiver。 -->
+        <!--
+        <context:include-filter
+                type="assignable" expression="com.dwarfeng.logicengine.impl.handler.receiver.KafkaReceiver"
+        />
+        -->
+
+        <!-- 加载 DubboReceiver。 -->
+        <!--
+        <context:include-filter
+                type="assignable" expression="com.dwarfeng.logicengine.impl.handler.receiver.DubboReceiver"
+        />
+        -->
+    </context:component-scan>
+</beans>

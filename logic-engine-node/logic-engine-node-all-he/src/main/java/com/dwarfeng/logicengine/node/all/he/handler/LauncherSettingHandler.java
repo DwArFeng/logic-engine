@@ -19,6 +19,9 @@ public class LauncherSettingHandler implements Handler {
     @Value("${com.dwarfeng.logicengine.launcher.enable_task_check_delay}")
     private long enableTaskCheckDelay;
 
+    @Value("${com.dwarfeng.logicengine.launcher.start_receive_delay}")
+    private long startReceiveDelay;
+
     public boolean isResetPerformerSupport() {
         return resetPerformerSupport;
     }
@@ -35,6 +38,10 @@ public class LauncherSettingHandler implements Handler {
         return enableTaskCheckDelay;
     }
 
+    public long getStartReceiveDelay() {
+        return startReceiveDelay;
+    }
+
     @Override
     public String toString() {
         return "LauncherSettingHandler{" +
@@ -42,6 +49,7 @@ public class LauncherSettingHandler implements Handler {
                 ", resetGuarderSupport=" + resetGuarderSupport +
                 ", onlineTaskCheckDelay=" + onlineTaskCheckDelay +
                 ", enableTaskCheckDelay=" + enableTaskCheckDelay +
+                ", startReceiveDelay=" + startReceiveDelay +
                 '}';
     }
 }

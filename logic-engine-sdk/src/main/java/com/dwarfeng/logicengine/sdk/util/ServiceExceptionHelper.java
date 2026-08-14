@@ -52,6 +52,9 @@ public final class ServiceExceptionHelper {
         map.put(SectionNotExistsException.class, ServiceExceptionCodes.SECTION_NOT_EXISTS);
         map.put(TaskStatusMismatchException.class, ServiceExceptionCodes.TASK_STATUS_MISMATCH);
         map.put(InvalidTaskStatusException.class, ServiceExceptionCodes.INVALID_TASK_STATUS);
+        map.put(ReceiverException.class, ServiceExceptionCodes.RECEIVER_FAILED);
+        map.put(ReceiverNotStartException.class, ServiceExceptionCodes.RECEIVER_NOT_START);
+        map.put(ReceiverExecutionException.class, ServiceExceptionCodes.RECEIVER_EXECUTION_FAILED);
 
         return map;
     }

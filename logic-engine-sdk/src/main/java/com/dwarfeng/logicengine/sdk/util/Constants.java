@@ -52,6 +52,11 @@ public final class Constants {
     @TaskVariableValueTypeItem
     public static final int TASK_VARIABLE_VALUE_TYPE_DATE = 4;
 
+    /**
+     * 消费者处理器的检查间隔。
+     */
+    public static final long CONSUMER_HANDLER_CHECK_INTERVAL = 5000L;
+
     private static final Lock LOCK = new ReentrantLock();
 
     private static List<Integer> stateTypeSpace;

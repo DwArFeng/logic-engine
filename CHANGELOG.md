@@ -4,6 +4,12 @@
 
 ### 功能构建
 
+- 实现预设接收器。
+  - com.dwarfeng.logicengine.impl.handler.receiver.DoNothingReceiver。
+  - com.dwarfeng.logicengine.impl.handler.receiver.DubboReceiver。
+  - com.dwarfeng.logicengine.impl.handler.receiver.InjvmReceiver。
+  - com.dwarfeng.logicengine.impl.handler.receiver.KafkaReceiver。
+
 - 实现预设守卫器。
   - com.dwarfeng.logicengine.impl.handler.guarder.always.AlwaysGuarderRegistry。
   - com.dwarfeng.logicengine.impl.handler.guarder.groovy.GroovyGuarderRegistry。
@@ -12,6 +18,7 @@
   - com.dwarfeng.logicengine.impl.handler.performer.groovy.GroovyPerformerRegistry。
 
 - 实现核心机制。
+  - 接收机制。
   - 任务检查机制。
   - 作业机制。
   - 守卫机制。
