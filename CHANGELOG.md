@@ -4,6 +4,22 @@
 
 ### 功能构建
 
+- 实现运维指令。
+  - com.dwarfeng.logicengine.impl.service.telqos.ConsumeCommand。
+  - com.dwarfeng.logicengine.impl.service.telqos.DispatchCommand。
+  - com.dwarfeng.logicengine.impl.service.telqos.DispatcherCommand。
+  - com.dwarfeng.logicengine.impl.service.telqos.DriveCommand。
+  - com.dwarfeng.logicengine.impl.service.telqos.DriveLocalCacheCommand。
+  - com.dwarfeng.logicengine.impl.service.telqos.JobCommand。
+  - com.dwarfeng.logicengine.impl.service.telqos.JobLocalCacheCommand。
+  - com.dwarfeng.logicengine.impl.service.telqos.PurgeCommand。
+  - com.dwarfeng.logicengine.impl.service.telqos.ReceiveCommand。
+  - com.dwarfeng.logicengine.impl.service.telqos.ReceiverCommand。
+  - com.dwarfeng.logicengine.impl.service.telqos.ResetCommand。
+  - com.dwarfeng.logicengine.impl.service.telqos.SuperviseCommand。
+  - com.dwarfeng.logicengine.impl.service.telqos.SupportCommand。
+  - com.dwarfeng.logicengine.impl.service.telqos.TaskCheckCommand。
+
 - 实现预设推送器。
   - com.dwarfeng.logicengine.impl.handler.pusher.DrainPusher。
   - com.dwarfeng.logicengine.impl.handler.pusher.LogPusher。
