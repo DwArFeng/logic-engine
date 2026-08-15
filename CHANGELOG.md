@@ -4,6 +4,12 @@
 
 ### 功能构建
 
+- 实现预设推送器。
+  - com.dwarfeng.logicengine.impl.handler.pusher.DrainPusher。
+  - com.dwarfeng.logicengine.impl.handler.pusher.LogPusher。
+  - com.dwarfeng.logicengine.impl.handler.pusher.MultiPusher。
+  - com.dwarfeng.logicengine.impl.handler.pusher.NativeKafkaPusher。
+
 - 实现预设重置器。
   - com.dwarfeng.logicengine.impl.handler.resetter.CronResetter。
   - com.dwarfeng.logicengine.impl.handler.resetter.DubboResetter。
@@ -37,6 +43,7 @@
   - com.dwarfeng.logicengine.impl.handler.performer.groovy.GroovyPerformerRegistry。
 
 - 实现核心机制。
+  - 推送机制。
   - 重置机制。
   - 清除机制。
   - 主管机制。

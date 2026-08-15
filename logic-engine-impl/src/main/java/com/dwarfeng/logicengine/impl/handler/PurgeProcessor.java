@@ -5,6 +5,7 @@ import com.dwarfeng.dutil.basic.num.NumberUtil;
 import com.dwarfeng.dutil.basic.num.unit.Time;
 import com.dwarfeng.logicengine.stack.bean.dto.PurgeFinishedResult;
 import com.dwarfeng.logicengine.stack.bean.entity.Task;
+import com.dwarfeng.logicengine.stack.handler.PushHandler;
 import com.dwarfeng.logicengine.stack.service.TaskMaintainService;
 import com.dwarfeng.subgrade.stack.bean.dto.PagingInfo;
 import org.slf4j.Logger;
@@ -36,6 +37,8 @@ public class PurgeProcessor {
 
     private final TaskMaintainService taskMaintainService;
 
+    private final PushHandler pushHandler;
+
     private final ThreadPoolTaskScheduler scheduler;
 
     private final PurgeTask purgeTask = new PurgeTask();
@@ -65,9 +68,11 @@ public class PurgeProcessor {
 
     public PurgeProcessor(
             TaskMaintainService taskMaintainService,
+            PushHandler pushHandler,
             ThreadPoolTaskScheduler taskScheduler
     ) {
         this.taskMaintainService = taskMaintainService;
+        this.pushHandler = pushHandler;
         this.scheduler = taskScheduler;
     }
 
@@ -159,8 +164,16 @@ public class PurgeProcessor {
                 LOGGER.warn("清除任务执行失败, 本次清除中止, 异常信息如下: ", e);
             }
 
-            // 日志记录。
-            LOGGER.debug("清除任务执行结果: {}", purgeFinishedResult);
+            // 推送清除结果。
+            try {
+                if (Objects.nonNull(purgeFinishedResult)) {
+                    pushHandler.purgeFinished(purgeFinishedResult);
+                } else {
+                    pushHandler.purgeFailed();
+                }
+            } catch (Exception e) {
+                LOGGER.warn("推送清除结果时发生异常, 本次消息将不会被推送, 异常信息如下: ", e);
+            }
         }
 
         private PurgeResult purgeTask(Date retentionDate) throws Exception {

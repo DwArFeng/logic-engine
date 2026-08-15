@@ -5,6 +5,7 @@ import com.dwarfeng.logicengine.stack.bean.dto.*;
 import com.dwarfeng.logicengine.stack.bean.entity.Section;
 import com.dwarfeng.logicengine.stack.bean.entity.Task;
 import com.dwarfeng.logicengine.stack.bean.key.StateKey;
+import com.dwarfeng.logicengine.stack.handler.PushHandler;
 import com.dwarfeng.logicengine.stack.handler.TaskOperateHandler;
 import com.dwarfeng.logicengine.stack.service.SectionMaintainService;
 import com.dwarfeng.logicengine.stack.service.TaskMaintainService;
@@ -12,6 +13,8 @@ import com.dwarfeng.subgrade.sdk.exception.HandlerExceptionHelper;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.exception.HandlerException;
 import com.dwarfeng.subgrade.stack.generation.KeyGenerator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +25,8 @@ import java.util.Set;
 
 @Component
 public class TaskOperateHandlerImpl implements TaskOperateHandler {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(TaskOperateHandlerImpl.class);
 
     private static final Set<Integer> VALID_TASK_STATUS_SET_START;
     private static final Set<Integer> VALID_TASK_STATUS_SET_FINISH;
@@ -93,6 +98,8 @@ public class TaskOperateHandlerImpl implements TaskOperateHandler {
 
     private final HandlerValidator handlerValidator;
 
+    private final PushHandler pushHandler;
+
     @Value("${com.dwarfeng.logicengine.task.die_timeout}")
     private long dieTimeout;
 
@@ -100,12 +107,14 @@ public class TaskOperateHandlerImpl implements TaskOperateHandler {
             TaskMaintainService taskMaintainService,
             SectionMaintainService sectionMaintainService,
             KeyGenerator<LongIdKey> keyGenerator,
-            HandlerValidator handlerValidator
+            HandlerValidator handlerValidator,
+            PushHandler pushHandler
     ) {
         this.taskMaintainService = taskMaintainService;
         this.sectionMaintainService = sectionMaintainService;
         this.keyGenerator = keyGenerator;
         this.handlerValidator = handlerValidator;
+        this.pushHandler = pushHandler;
     }
 
     @Override
@@ -222,6 +231,9 @@ public class TaskOperateHandlerImpl implements TaskOperateHandler {
 
         // 调用维护服务更新任务状态。
         taskMaintainService.update(task);
+
+        // 推送任务完成事件。
+        pushTaskEvent(task, Constants.TASK_STATUS_FINISHED);
     }
 
     @Override
@@ -253,6 +265,9 @@ public class TaskOperateHandlerImpl implements TaskOperateHandler {
 
         // 调用维护服务更新任务状态。
         taskMaintainService.update(task);
+
+        // 推送任务失败事件。
+        pushTaskEvent(task, Constants.TASK_STATUS_FAILED);
     }
 
     @Override
@@ -285,6 +300,9 @@ public class TaskOperateHandlerImpl implements TaskOperateHandler {
 
         // 调用维护服务更新任务状态。
         taskMaintainService.update(task);
+
+        // 推送任务过期事件。
+        pushTaskEvent(task, Constants.TASK_STATUS_EXPIRED);
     }
 
     @Override
@@ -317,6 +335,9 @@ public class TaskOperateHandlerImpl implements TaskOperateHandler {
 
         // 调用维护服务更新任务状态。
         taskMaintainService.update(task);
+
+        // 推送任务死亡事件。
+        pushTaskEvent(task, Constants.TASK_STATUS_DIED);
     }
 
     @Override
@@ -405,6 +426,30 @@ public class TaskOperateHandlerImpl implements TaskOperateHandler {
 
         // 调用维护服务更新任务实体。
         taskMaintainService.update(task);
+    }
+
+    private void pushTaskEvent(Task task, int status) {
+        try {
+            Section section = sectionMaintainService.get(task.getSectionKey());
+            switch (status) {
+                case Constants.TASK_STATUS_FINISHED:
+                    pushHandler.taskFinished(section);
+                    break;
+                case Constants.TASK_STATUS_FAILED:
+                    pushHandler.taskFailed(section);
+                    break;
+                case Constants.TASK_STATUS_EXPIRED:
+                    pushHandler.taskExpired(section);
+                    break;
+                case Constants.TASK_STATUS_DIED:
+                    pushHandler.taskDied(section);
+                    break;
+                default:
+                    throw new IllegalArgumentException("未知的任务终结状态: " + status);
+            }
+        } catch (Exception e) {
+            LOGGER.warn("推送任务终结消息时发生异常, 本次消息将不会被推送, 异常信息如下: ", e);
+        }
     }
 
     private static Long duration(Task task, Date endedDate) {
