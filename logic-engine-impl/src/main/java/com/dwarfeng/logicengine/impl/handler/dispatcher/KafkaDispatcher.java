@@ -231,6 +231,7 @@ public class KafkaDispatcher extends AbstractDispatcher {
         @Value("${com.dwarfeng.logicengine.dispatcher.kafka.transaction_prefix}")
         private String transactionPrefix;
 
+        @SuppressWarnings("DuplicatedCode")
         @Bean("kafkaDispatcher.producerProperties")
         public Map<String, Object> producerProperties() {
             Map<String, Object> properties = new HashMap<>();

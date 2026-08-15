@@ -42,6 +42,7 @@ public class NativeKafkaPusherConfiguration {
     @Value("${com.dwarfeng.logicengine.pusher.kafka.native.transaction_prefix}")
     private String transactionPrefix;
 
+    @SuppressWarnings("DuplicatedCode")
     @Bean("nativeKafkaPusher.producerProperties")
     public Map<String, Object> producerProperties() {
         Map<String, Object> properties = new HashMap<>();

@@ -11,6 +11,7 @@ import java.util.Map;
 @Configuration
 public class ServiceExceptionMapperConfiguration {
 
+    @SuppressWarnings("DuplicatedCode")
     @Bean
     public MapServiceExceptionMapper mapServiceExceptionMapper() {
         Map<Class<? extends Exception>, ServiceException.Code> des = ServiceExceptionHelper.putDefaultDestination(null);

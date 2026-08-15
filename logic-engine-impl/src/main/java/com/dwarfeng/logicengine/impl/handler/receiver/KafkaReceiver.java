@@ -150,6 +150,7 @@ public class KafkaReceiver extends AbstractReceiver {
         @Value("${com.dwarfeng.logicengine.receiver.kafka.max_poll_interval_ms}")
         private int maxPollIntervalMs;
 
+        @SuppressWarnings("DuplicatedCode")
         @Bean("kafkaReceiver.consumerProperties")
         public Map<String, Object> consumerProperties() {
             LOGGER.debug("配置 Kafka 消费者属性...");
@@ -170,6 +171,7 @@ public class KafkaReceiver extends AbstractReceiver {
             return props;
         }
 
+        @SuppressWarnings("DuplicatedCode")
         @Bean("kafkaReceiver.consumerFactory")
         public ConsumerFactory<String, String> consumerFactory() {
             LOGGER.debug("配置 Kafka 消费者工厂...");
@@ -181,6 +183,7 @@ public class KafkaReceiver extends AbstractReceiver {
             return factory;
         }
 
+        @SuppressWarnings("DuplicatedCode")
         @Bean("kafkaReceiver.kafkaListenerContainerFactory")
         public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, String>>
         kafkaListenerContainerFactory() {
