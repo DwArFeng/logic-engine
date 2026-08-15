@@ -4,6 +4,8 @@
 
 ### 功能构建
 
+- 完成 `logic-engine-distribute` 模块，打包测试通过。
+
 - 实现运维指令。
   - com.dwarfeng.logicengine.impl.service.telqos.ConsumeCommand。
   - com.dwarfeng.logicengine.impl.service.telqos.DispatchCommand。
