@@ -4,6 +4,16 @@
 
 ### 功能构建
 
+- Wiki 编写。
+  - docs/wiki/zh-CN/Contents.md。
+  - docs/wiki/zh-CN/Introduction.md。
+  - docs/wiki/zh-CN/README.md。
+  - docs/wiki/en-US/Contents.md。
+  - docs/wiki/en-US/Introduction.md。
+  - docs/wiki/en-US/README.md。
+
+- `README.md` 更新。
+
 - 完成 `logic-engine-distribute` 模块，打包测试通过。
 
 - 实现运维指令。

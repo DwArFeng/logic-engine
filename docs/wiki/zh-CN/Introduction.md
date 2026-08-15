@@ -15,15 +15,12 @@ Logic Engine 是一款开箱即用的逻辑状态机调度与执行框架，面�
 触发条件 -> 创建任务 -> 状态判断 -> 执行动作 -> 状态转移 -> 任务终结
 ```
 
-Logic Engine 将上述过程中的触发、调度、任务生命周期、状态判断和动作执行拆分为独立机制，
-并维护这些机制之间的标准调用流程。
+Logic Engine 将上述过程中的触发、调度、任务生命周期、状态判断和动作执行拆分为独立机制， 并维护这些机制之间的标准调用流程。
 
-Logic Engine 以部件（Section）为核心。
-每个部件可以维护状态（State）、驱动器（Driver）、守卫器（Guarder）和执行器（Performer），
+Logic Engine 以部件（Section）为核心。 每个部件可以维护状态（State）、驱动器（Driver）、守卫器（Guarder）和执行器（Performer），
 分别定义状态机结构、触发方式、状态转移条件和状态转移动作。
 
-一次 Driver 触发会产生部件执行请求。
-主管节点将请求通过 Dispatcher 分发给 Receiver 节点，Receiver 节点创建并执行 Task。
+一次 Driver 触发会产生部件执行请求。 主管节点将请求通过 Dispatcher 分发给 Receiver 节点，Receiver 节点创建并执行 Task。
 Task 持续运行状态机，直至进入结束状态，或因失败、过期、死亡而终止。
 
 Logic Engine 内置了多种常用的 Driver、Guarder、Performer、Dispatcher、Receiver 和 Pusher 实现，同时提供 SDK 扩展接口，
@@ -33,24 +30,24 @@ Logic Engine 内置了多种常用的 Driver、Guarder、Performer、Dispatcher�
 
 ## 国际化（I18N）
 
-您正在阅读的文档是中文文档，您可以在 [wiki](./docs/wiki) 目录下找到其他语言的文档。
+您正在阅读的文档是中文文档，您可以在 [wiki](..) 目录下找到其他语言的文档。
 
-You are reading the Chinese document. You can find documents in other languages in the [wiki](./docs/wiki) directory.
+You are reading the Chinese document. You can find documents in other languages in the [wiki](..) directory.
 
-- [简体中文](./docs/wiki/zh-CN/Introduction.md)
-- [English](./docs/wiki/en-US/Introduction.md)
+- [简体中文](./Introduction.md)
+- [English](../en-US/Introduction.md)
 
 ## 特性
 
 - 实现逻辑状态机的标准化调度与执行流程，将触发、分发、任务执行、状态判断和动作执行拆分为独立机制。
 - 以 Section 为状态机配置根，支持初始状态、普通状态和结束状态，以及首次执行冷却和状态轮询间隔。
-- 提供完整的 Task 生命周期管理，支持创建、执行、完成、失败、过期和死亡状态，
-  并使用 TaskEvent 记录时间线、使用 TaskVariable 维护动态运行上下文。
+- 提供完整的 Task 生命周期管理，支持创建、执行、完成、失败、过期和死亡状态， 并使用 TaskEvent 记录时间线、使用 TaskVariable
+  维护动态运行上下文。
 - 内置 Cron、固定延迟、固定频率和 DCTI Kafka Driver，支持通过 SDK 接入自定义触发逻辑。
-- Guarder 按配置顺序判断状态转移条件，第一条成立的 Guarder 决定目标状态；
-  Performer 按顺序执行状态转移动作，全部成功后提交状态转移，并支持自定义 Guarder 与 Performer。
-- 使用 Curator 进行主管选举，由持有主管锁的节点运行 Driver 与 Dispatcher；
-  支持 In-JVM、Kafka、Dubbo 等 Dispatcher 与 Receiver 组合，可在单节点和多节点运行形态间切换。
+- Guarder 按配置顺序判断状态转移条件，第一条成立的 Guarder 决定目标状态； Performer 按顺序执行状态转移动作，全部成功后提交状态转移，并支持自定义
+  Guarder 与 Performer。
+- 使用 Curator 进行主管选举，由持有主管锁的节点运行 Driver 与 Dispatcher； 支持 In-JVM、Kafka、Dubbo 等 Dispatcher 与
+  Receiver 组合，可在单节点和多节点运行形态间切换。
 - 通过心跳和任务检查机制识别执行异常，使未及时启动或失去心跳的 Task 收敛到过期或死亡状态。
 - 使用 Hibernate 持久化业务实体、Redis 缓存实体数据，并通过进程内本地缓存复用 Section 级状态机执行配置。
 - 提供日志、组合和原生 Kafka Pusher，用于推送任务终态、重置和清理等系统事件。
@@ -106,21 +103,21 @@ flowchart LR
 
 ## 文档
 
-该项目的文档位于 [docs](./docs) 目录下，包括：
+该项目的文档位于 [docs](../..) 目录下，包括：
 
 ### wiki
 
 wiki 为项目开发人员和使用者编写的详细文档，包含不同语言的版本，主要入口为：
 
-1. [简介](./docs/wiki/zh-CN/Introduction.md) - 镜像的 `README.md`，与本文件内容基本相同。
-2. [目录](./docs/wiki/zh-CN/Contents.md) - 文档目录。
+1. [简介](./Introduction.md) - 镜像的 `README.md`，与根目录文件内容基本相同。
+2. [目录](./Contents.md) - 文档目录。
 
 ## 运行截图
 
 Telnet 运维平台指令合集：
 
-![Telnet 运维平台指令合集](./docs/wiki/zh-CN/images/TelqosCommands.png "Telnet 运维平台指令合集")
+![Telnet 运维平台指令合集](./images/TelqosCommands.png "Telnet 运维平台指令合集")
 
 在 Telnet 运维平台中查询主管状态：
 
-![Telnet 运维平台查询主管状态](./docs/wiki/zh-CN/images/TelqosSuperviseStatus.png "Telnet 运维平台查询主管状态")
+![Telnet 运维平台查询主管状态](./images/TelqosSuperviseStatus.png "Telnet 运维平台查询主管状态")
