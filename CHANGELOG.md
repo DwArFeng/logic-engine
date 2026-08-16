@@ -4,6 +4,15 @@
 
 ### 功能构建
 
+- `logic-engine-impl` 子模块配置文件移动至测试目录。
+  - com.dwarfeng.logicengine.impl.configuration.CacheConfiguration。
+  - com.dwarfeng.logicengine.impl.configuration.DaoConfiguration。
+  - com.dwarfeng.logicengine.impl.configuration.ExceptionCodeOffsetConfiguration。
+  - com.dwarfeng.logicengine.impl.configuration.FastJsonConfiguration。
+  - com.dwarfeng.logicengine.impl.configuration.GenerateConfiguration。
+  - com.dwarfeng.logicengine.impl.configuration.ServiceConfiguration。
+  - com.dwarfeng.logicengine.impl.configuration.ServiceExceptionMapperConfiguration。
+
 - `logic-engine-stack` 子模块类优化注释、文档注释格式、代码换行格式。
   - com.dwarfeng.logicengine.stack.service.DriverSupportMaintainService。
   - com.dwarfeng.logicengine.stack.service.GuarderSupportMaintainService。
