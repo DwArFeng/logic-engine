@@ -4,6 +4,9 @@
 
 ### 功能构建
 
+- Wiki 编写。
+  - docs/wiki/zh-CN/VersionBlacklist.md。
+
 - 优化作业机制实现。
   - com.dwarfeng.logicengine.impl.handler.JobHandlerImpl。
 
