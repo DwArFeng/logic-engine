@@ -4,7 +4,10 @@
 
 ### 功能构建
 
-- (无)
+- `logic-engine-stack` 子模块类优化注释、文档注释格式、代码换行格式。
+  - com.dwarfeng.logicengine.stack.service.DriverSupportMaintainService。
+  - com.dwarfeng.logicengine.stack.service.GuarderSupportMaintainService。
+  - com.dwarfeng.logicengine.stack.service.PerformerSupportMaintainService。
 
 ### Bug 修复
 

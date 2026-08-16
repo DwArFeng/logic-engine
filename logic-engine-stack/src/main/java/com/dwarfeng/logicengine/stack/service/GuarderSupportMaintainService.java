@@ -15,7 +15,7 @@ import com.dwarfeng.subgrade.stack.service.PresetLookupService;
 public interface GuarderSupportMaintainService extends BatchCrudService<StringIdKey, GuarderSupport>,
         EntireLookupService<GuarderSupport>, PresetLookupService<GuarderSupport> {
 
-    // region 预设查询 - 业务逻辑
+    // region 预设查询 - UI
 
     String ID_LIKE = "id_like";
     String LABEL_LIKE = "label_like";

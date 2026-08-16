@@ -15,7 +15,7 @@ import com.dwarfeng.subgrade.stack.service.PresetLookupService;
 public interface PerformerSupportMaintainService extends BatchCrudService<StringIdKey, PerformerSupport>,
         EntireLookupService<PerformerSupport>, PresetLookupService<PerformerSupport> {
 
-    // region 预设查询 - 业务逻辑
+    // region 预设查询 - UI
 
     String ID_LIKE = "id_like";
     String LABEL_LIKE = "label_like";

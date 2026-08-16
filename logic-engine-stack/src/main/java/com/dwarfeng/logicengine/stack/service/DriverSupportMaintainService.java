@@ -15,7 +15,7 @@ import com.dwarfeng.subgrade.stack.service.PresetLookupService;
 public interface DriverSupportMaintainService extends BatchCrudService<StringIdKey, DriverSupport>,
         EntireLookupService<DriverSupport>, PresetLookupService<DriverSupport> {
 
-    // region 预设查询 - 业务逻辑
+    // region 预设查询 - UI
 
     String ID_LIKE = "id_like";
     String LABEL_LIKE = "label_like";
