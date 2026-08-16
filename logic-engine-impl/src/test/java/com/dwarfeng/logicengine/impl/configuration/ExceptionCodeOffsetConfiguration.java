@@ -24,7 +24,6 @@ public class ExceptionCodeOffsetConfiguration {
     @Value("${com.dwarfeng.logicengine.logic_engine.exception_code_offset.dwarfeng_dct}")
     private int dwarfengDctExceptionCodeOffset;
 
-    @SuppressWarnings("DuplicatedCode")
     @PostConstruct
     public void init() {
         ServiceExceptionCodes.setExceptionCodeOffset(exceptionCodeOffset);
