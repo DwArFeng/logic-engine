@@ -9,10 +9,12 @@ import com.dwarfeng.logicengine.stack.struct.JobLocalCache;
 import com.dwarfeng.subgrade.sdk.exception.HandlerExceptionHelper;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.exception.HandlerException;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.task.TaskExecutor;
-import org.springframework.scheduling.TaskScheduler;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Scope;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Nullable;
@@ -28,36 +30,41 @@ import java.util.concurrent.locks.ReentrantLock;
 @Component
 public class JobHandlerImpl implements JobHandler {
 
+    private final ApplicationContext ctx;
+
     private final TaskMaintainService taskMaintainService;
+
     private final JobLocalCacheHandler jobLocalCacheHandler;
     private final TaskOperateHandler taskOperateHandler;
     private final TaskEventOperateHandler taskEventOperateHandler;
     private final TaskVariableOperateHandler taskVariableOperateHandler;
-    private final TaskExecutor taskExecutor;
-    private final TaskScheduler taskScheduler;
 
-    private final long beatInterval;
+    private final ThreadPoolTaskExecutor executor;
+    private final ThreadPoolTaskScheduler scheduler;
+
+    @Value("${com.dwarfeng.logicengine.task.beat_interval}")
+    private long beatInterval;
 
     private final ConcurrentMap<LongIdKey, Lock> executeLocks = new ConcurrentHashMap<>();
 
     public JobHandlerImpl(
+            ApplicationContext ctx,
             TaskMaintainService taskMaintainService,
             JobLocalCacheHandler jobLocalCacheHandler,
             TaskOperateHandler taskOperateHandler,
             TaskEventOperateHandler taskEventOperateHandler,
             TaskVariableOperateHandler taskVariableOperateHandler,
-            @Qualifier("executor") TaskExecutor taskExecutor,
-            @Qualifier("scheduler") TaskScheduler taskScheduler,
-            @Value("${com.dwarfeng.logicengine.task.beat_interval}") long beatInterval
+            ThreadPoolTaskExecutor executor,
+            ThreadPoolTaskScheduler scheduler
     ) {
+        this.ctx = ctx;
         this.taskMaintainService = taskMaintainService;
         this.jobLocalCacheHandler = jobLocalCacheHandler;
         this.taskOperateHandler = taskOperateHandler;
         this.taskEventOperateHandler = taskEventOperateHandler;
         this.taskVariableOperateHandler = taskVariableOperateHandler;
-        this.taskExecutor = taskExecutor;
-        this.taskScheduler = taskScheduler;
-        this.beatInterval = beatInterval;
+        this.executor = executor;
+        this.scheduler = scheduler;
     }
 
     @Override
@@ -102,10 +109,9 @@ public class JobHandlerImpl implements JobHandler {
             createEvent(taskKey, "执行快照警告: " + warning);
         }
 
-        ExecutionContext context = new ExecutionContext(taskKey, cache);
         ScheduledFuture<?> heartbeatFuture = scheduleHeartbeat(taskKey);
         try {
-            runStateMachine(taskKey, cache, context);
+            runStateMachine(taskKey, cache);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             failIfActive(taskKey, "任务执行被中断。");
@@ -119,7 +125,7 @@ public class JobHandlerImpl implements JobHandler {
     @Override
     public CompletableFuture<Void> executeAsync(JobExecuteInfo info) {
         CompletableFuture<Void> future = new CompletableFuture<>();
-        taskExecutor.execute(() -> {
+        executor.execute(() -> {
             try {
                 execute(info);
                 future.complete(null);
@@ -130,11 +136,9 @@ public class JobHandlerImpl implements JobHandler {
         return future;
     }
 
-    private void runStateMachine(LongIdKey taskKey, JobLocalCache cache, ExecutionContext context)
-            throws Exception {
+    private void runStateMachine(LongIdKey taskKey, JobLocalCache cache) throws Exception {
         State currentState = cache.getInitialState();
         while (continueProcessing(taskKey)) {
-            context.setCurrentState(currentState);
             if (currentState.getType() == Constants.STATE_TYPE_TERMINAL) {
                 taskOperateHandler.finish(new TaskFinishInfo(taskKey));
                 createEvent(taskKey, "任务到达结束状态: " + currentState.getKey().getStateId());
@@ -143,7 +147,10 @@ public class JobHandlerImpl implements JobHandler {
 
             sleep(currentState.getFirstSpinDelay());
             while (continueProcessing(taskKey)) {
-                GuarderInfo selectedGuarder = selectGuarder(cache, context, currentState);
+                Guarder.Context guarderContext = ctx.getBean(
+                        GuarderContext.class, getTask(taskKey), cache, currentState, taskVariableOperateHandler
+                );
+                GuarderInfo selectedGuarder = selectGuarder(cache, guarderContext, currentState);
                 if (selectedGuarder == null) {
                     sleep(currentState.getSpinInterval());
                     continue;
@@ -153,8 +160,11 @@ public class JobHandlerImpl implements JobHandler {
                 }
 
                 State targetState = cache.getStates().get(selectedGuarder.getTargetStateKey());
-                context.setTransition(currentState, targetState);
-                executePerformers(cache, context, selectedGuarder);
+                Performer.Context performerContext = ctx.getBean(
+                        PerformerContext.class, getTask(taskKey), cache, currentState, targetState,
+                        taskVariableOperateHandler
+                );
+                executePerformers(cache, performerContext, selectedGuarder);
                 if (!continueProcessing(taskKey)) {
                     return;
                 }
@@ -171,7 +181,7 @@ public class JobHandlerImpl implements JobHandler {
     }
 
     @Nullable
-    private GuarderInfo selectGuarder(JobLocalCache cache, ExecutionContext context, State currentState)
+    private GuarderInfo selectGuarder(JobLocalCache cache, Guarder.Context context, State currentState)
             throws Exception {
         for (GuarderInfo guarderInfo : cache.getGuarders()) {
             if (!guarderInfo.isEnabled()
@@ -188,9 +198,8 @@ public class JobHandlerImpl implements JobHandler {
         return null;
     }
 
-    private void executePerformers(
-            JobLocalCache cache, ExecutionContext context, GuarderInfo selectedGuarder
-    ) throws Exception {
+    private void executePerformers(JobLocalCache cache, Performer.Context context, GuarderInfo selectedGuarder)
+            throws Exception {
         for (PerformerInfo performerInfo : cache.getPerformers()) {
             if (!performerInfo.isEnabled()
                     || !Objects.equals(selectedGuarder.getAnchorStateKey(), performerInfo.getAnchorStateKey())
@@ -205,7 +214,7 @@ public class JobHandlerImpl implements JobHandler {
     }
 
     private ScheduledFuture<?> scheduleHeartbeat(LongIdKey taskKey) {
-        return taskScheduler.scheduleAtFixedRate(() -> {
+        return scheduler.scheduleAtFixedRate(() -> {
             try {
                 if (isProcessing(taskKey)) {
                     taskOperateHandler.beat(new TaskBeatInfo(taskKey));
@@ -275,20 +284,25 @@ public class JobHandlerImpl implements JobHandler {
         return message == null || message.trim().isEmpty() ? e.getClass().getSimpleName() : message;
     }
 
-    private final class ExecutionContext implements Guarder.Context, Performer.Context {
+    @Component
+    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+    public static class GuarderContext implements Guarder.Context {
 
-        private final LongIdKey taskKey;
+        private final Task task;
         private final JobLocalCache cache;
+        private final State currentState;
+        private final TaskVariableOperateHandler taskVariableOperateHandler;
 
-        private Task task;
-        private State currentState;
-        private State anchorState;
-        private State targetState;
-
-        private ExecutionContext(LongIdKey taskKey, JobLocalCache cache) throws HandlerException {
-            this.taskKey = taskKey;
+        public GuarderContext(
+                Task task,
+                JobLocalCache cache,
+                State currentState,
+                TaskVariableOperateHandler taskVariableOperateHandler
+        ) {
+            this.task = task;
             this.cache = cache;
-            this.task = JobHandlerImpl.this.getTask(taskKey);
+            this.currentState = currentState;
+            this.taskVariableOperateHandler = taskVariableOperateHandler;
         }
 
         @Override
@@ -304,6 +318,58 @@ public class JobHandlerImpl implements JobHandler {
         @Override
         public State getCurrentState() {
             return currentState;
+        }
+
+        @Nullable
+        @Override
+        public TaskVariableInspectResult inspectTaskVariable(TaskVariableInspectInfo info) throws Exception {
+            return taskVariableOperateHandler.inspect(info);
+        }
+
+        @Override
+        public void upsertTaskVariable(TaskVariableUpsertInfo info) throws Exception {
+            taskVariableOperateHandler.upsert(info);
+        }
+
+        @Override
+        public void removeTaskVariable(TaskVariableRemoveInfo info) throws Exception {
+            taskVariableOperateHandler.remove(info);
+        }
+
+    }
+
+    @Component
+    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+    public static class PerformerContext implements Performer.Context {
+
+        private final Task task;
+        private final JobLocalCache cache;
+        private final State anchorState;
+        private final State targetState;
+        private final TaskVariableOperateHandler taskVariableOperateHandler;
+
+        public PerformerContext(
+                Task task,
+                JobLocalCache cache,
+                State anchorState,
+                State targetState,
+                TaskVariableOperateHandler taskVariableOperateHandler
+        ) {
+            this.task = task;
+            this.cache = cache;
+            this.anchorState = anchorState;
+            this.targetState = targetState;
+            this.taskVariableOperateHandler = taskVariableOperateHandler;
+        }
+
+        @Override
+        public Task getTask() {
+            return task;
+        }
+
+        @Override
+        public Section getSection() {
+            return cache.getSection();
         }
 
         @Override
@@ -330,16 +396,6 @@ public class JobHandlerImpl implements JobHandler {
         @Override
         public void removeTaskVariable(TaskVariableRemoveInfo info) throws Exception {
             taskVariableOperateHandler.remove(info);
-        }
-
-        private void setCurrentState(State currentState) throws HandlerException {
-            this.currentState = currentState;
-            this.task = JobHandlerImpl.this.getTask(taskKey);
-        }
-
-        private void setTransition(State anchorState, State targetState) {
-            this.anchorState = anchorState;
-            this.targetState = targetState;
         }
     }
 }

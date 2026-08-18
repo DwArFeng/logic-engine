@@ -1,6 +1,6 @@
 package com.dwarfeng.logicengine.impl.handler;
 
-import com.dwarfeng.logicengine.impl.handler.guarder.always.AlwaysGuarderRegistry;
+import com.dwarfeng.logicengine.impl.handler.guarder.groovy.GroovyGuarderRegistry;
 import com.dwarfeng.logicengine.impl.handler.performer.groovy.GroovyPerformerRegistry;
 import com.dwarfeng.logicengine.sdk.util.Constants;
 import com.dwarfeng.logicengine.stack.bean.entity.*;
@@ -63,9 +63,19 @@ public class JobHandlerImplTest {
             );
             terminalState.setKey(stateMaintainService.insertOrUpdate(terminalState));
 
+            String guarderScript = "import com.dwarfeng.logicengine.impl.handler.guarder.groovy.Processor\n" +
+                    "import com.dwarfeng.logicengine.stack.bean.dto.TaskVariableUpsertInfo\n" +
+                    "import com.dwarfeng.logicengine.stack.handler.Guarder\n" +
+                    "class JobTestGuarderProcessor implements Processor {\n" +
+                    "  boolean test(Guarder.Context context) {\n" +
+                    "    context.upsertTaskVariable(new TaskVariableUpsertInfo(" +
+                    "context.task.key, 'guard', 0, 'checked'))\n" +
+                    "    return true\n" +
+                    "  }\n" +
+                    "}\n";
             guarderInfo = new GuarderInfo(
                     null, section.getKey(), initialState.getKey(), terminalState.getKey(), 0, true,
-                    AlwaysGuarderRegistry.GUARDER_TYPE, "", null
+                    GroovyGuarderRegistry.GUARDER_TYPE, guarderScript, null
             );
             guarderInfo.setKey(guarderInfoMaintainService.insertOrUpdate(guarderInfo));
 
@@ -103,6 +113,10 @@ public class JobHandlerImplTest {
                     new TaskVariableKey(taskKey.getLongId(), "result")
             );
             assertEquals("executed", taskVariable.getStringValue());
+            TaskVariable guardTaskVariable = taskVariableMaintainService.get(
+                    new TaskVariableKey(taskKey.getLongId(), "guard")
+            );
+            assertEquals("checked", guardTaskVariable.getStringValue());
         } finally {
             if (Objects.nonNull(taskKey)) {
                 taskMaintainService.deleteIfExists(taskKey);

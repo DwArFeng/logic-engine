@@ -4,6 +4,9 @@
 
 ### 功能构建
 
+- 优化作业机制实现。
+  - com.dwarfeng.logicengine.impl.handler.JobHandlerImpl。
+
 - `logic-engine-impl` 子模块配置文件移动至测试目录。
   - com.dwarfeng.logicengine.impl.configuration.CacheConfiguration。
   - com.dwarfeng.logicengine.impl.configuration.DaoConfiguration。
