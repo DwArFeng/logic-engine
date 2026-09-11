@@ -42,22 +42,42 @@ public class LogPusher extends AbstractPusher {
 
     @Override
     public void taskFinished(Section section) throws HandlerException {
-        logSection("推送任务完成消息:", section);
+        String title = "推送任务完成消息:";
+        String message = String.format(
+                "部件:\n%s",
+                JSON.toJSONString(FastJsonSection.of(section), true)
+        );
+        logData(title, message);
     }
 
     @Override
     public void taskFailed(Section section) throws HandlerException {
-        logSection("推送任务失败消息:", section);
+        String title = "推送任务失败消息:";
+        String message = String.format(
+                "部件:\n%s",
+                JSON.toJSONString(FastJsonSection.of(section), true)
+        );
+        logData(title, message);
     }
 
     @Override
     public void taskExpired(Section section) throws HandlerException {
-        logSection("推送任务过期消息:", section);
+        String title = "推送任务过期消息:";
+        String message = String.format(
+                "部件:\n%s",
+                JSON.toJSONString(FastJsonSection.of(section), true)
+        );
+        logData(title, message);
     }
 
     @Override
     public void taskDied(Section section) throws HandlerException {
-        logSection("推送任务死亡消息:", section);
+        String title = "推送任务死亡消息:";
+        String message = String.format(
+                "部件:\n%s",
+                JSON.toJSONString(FastJsonSection.of(section), true)
+        );
+        logData(title, message);
     }
 
     @Override
@@ -80,37 +100,31 @@ public class LogPusher extends AbstractPusher {
         logData("清除失败事件:", StringUtils.EMPTY);
     }
 
-    private void logSection(String title, Section section) throws HandlerException {
-        String message = String.format(
-                "部件:\n%s", JSON.toJSONString(FastJsonSection.of(section), true)
-        );
-        logData(title, message);
-    }
-
     private void logData(String title, String message) throws HandlerException {
         String currentLogLevel = StringUtils.upperCase(logLevel);
-        logString(title, currentLogLevel);
+        String logMessage = title;
         if (StringUtils.isNotEmpty(message)) {
-            logString(message, currentLogLevel);
+            logMessage = String.join("\n", title, message);
         }
+        logString(logMessage, currentLogLevel);
     }
 
-    private void logString(String message, String currentLogLevel) throws HandlerException {
+    private void logString(String logMessage, String currentLogLevel) throws HandlerException {
         switch (currentLogLevel) {
             case LEVEL_TRACE:
-                LOGGER.trace(message);
+                LOGGER.trace(logMessage);
                 return;
             case LEVEL_DEBUG:
-                LOGGER.debug(message);
+                LOGGER.debug(logMessage);
                 return;
             case LEVEL_INFO:
-                LOGGER.info(message);
+                LOGGER.info(logMessage);
                 return;
             case LEVEL_WARN:
-                LOGGER.warn(message);
+                LOGGER.warn(logMessage);
                 return;
             case LEVEL_ERROR:
-                LOGGER.error(message);
+                LOGGER.error(logMessage);
                 return;
             default:
                 throw new HandlerException("未知的日志等级: " + currentLogLevel);

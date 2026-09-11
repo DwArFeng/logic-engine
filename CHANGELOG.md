@@ -4,6 +4,9 @@
 
 ### 功能构建
 
+- 优化项目中部分类的代码结构。
+  - com.dwarfeng.logicengine.impl.handler.pusher.LogPusher。
+
 - 依赖升级。
   - 升级 `jackson` 依赖版本为 `2.21.5` 以规避漏洞。
   - 升级 `subgrade` 依赖版本为 `1.9.0.a` 以规避漏洞。
