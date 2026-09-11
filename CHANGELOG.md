@@ -4,6 +4,9 @@
 
 ### 功能构建
 
+- Wiki 编写。
+  - docs/wiki/zh-CN/SystemRequirements.md。
+
 - 优化项目中部分类的代码结构。
   - com.dwarfeng.logicengine.impl.handler.pusher.LogPusher。
 
