@@ -44,6 +44,9 @@ public class TaskPresetCriteriaMaker implements PresetCriteriaMaker {
             case TaskMaintainService.TO_PURGED:
                 toPurged(criteria, objs);
                 break;
+            case TaskMaintainService.CREATED_DATE_DESC:
+                createdDateDesc(criteria, objs);
+                break;
             default:
                 throw new IllegalArgumentException("无法识别的预设: " + preset);
         }
@@ -93,6 +96,14 @@ public class TaskPresetCriteriaMaker implements PresetCriteriaMaker {
             Date currentDate = new Date();
             criteria.add(Restrictions.in("status", Collections.singletonList(Constants.TASK_STATUS_PROCESSING)));
             criteria.add(Restrictions.le("shouldDieDate", currentDate));
+        } catch (Exception e) {
+            throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objs));
+        }
+    }
+
+    private void createdDateDesc(DetachedCriteria criteria, Object[] objs) {
+        try {
+            criteria.addOrder(Order.desc("createdDate"));
         } catch (Exception e) {
             throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objs));
         }

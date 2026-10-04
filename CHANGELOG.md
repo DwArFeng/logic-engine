@@ -4,7 +4,8 @@
 
 ### 功能构建
 
-- (无)
+- 增加预设查询。
+  - com.dwarfeng.logicengine.stack.service.TaskMaintainService.CREATED_DATE_DESC。
 
 ### Bug 修复
 

@@ -29,4 +29,13 @@ public interface TaskMaintainService extends BatchCrudService<LongIdKey, Task>, 
     String TO_PURGED = "to_purged";
 
     // endregion
+
+    // region 预设查询 - UI
+
+    /**
+     * @since 1.1.2
+     */
+    String CREATED_DATE_DESC = "created_date_desc";
+
+    // endregion
 }
