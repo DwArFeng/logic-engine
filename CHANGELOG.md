@@ -4,6 +4,10 @@
 
 ### 功能构建
 
+- Wiki 编写。
+  - docs/wiki/zh-CN/BatchScripts.md。
+  - docs/wiki/zh-CN/ShellScripts.md。
+
 - 增加手动调度能力。
   - com.dwarfeng.logicengine.stack.service.ManualDispatchService。
 
