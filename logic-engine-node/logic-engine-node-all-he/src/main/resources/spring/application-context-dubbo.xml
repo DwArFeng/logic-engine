@@ -95,6 +95,11 @@
             ref="jobServiceImpl"
             group="${com.dwarfeng.logicengine.dubbo.provider.group}"
     />
+    <dubbo:service
+            interface="com.dwarfeng.logicengine.stack.service.ManualDispatchService"
+            ref="manualDispatchServiceImpl"
+            group="${com.dwarfeng.logicengine.dubbo.provider.group}"
+    />
 
     <!-- endregion -->
 

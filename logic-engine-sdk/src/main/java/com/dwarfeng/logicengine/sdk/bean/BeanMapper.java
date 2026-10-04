@@ -405,5 +405,12 @@ public interface BeanMapper {
             JSFixedFastJsonPurgeFinishedResult jSFixedFastJsonPurgeFinishedResult
     );
 
+    WebInputManualDispatchInfo manualDispatchInfoToWebInput(ManualDispatchInfo manualDispatchInfo);
+
+    @InheritInverseConfiguration
+    ManualDispatchInfo manualDispatchInfoFromWebInput(
+            WebInputManualDispatchInfo webInputManualDispatchInfo
+    );
+
     // endregion
 }

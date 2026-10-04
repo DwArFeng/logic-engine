@@ -4,6 +4,9 @@
 
 ### 功能构建
 
+- 增加手动调度能力。
+  - com.dwarfeng.logicengine.stack.service.ManualDispatchService。
+
 - 增加预设查询。
   - com.dwarfeng.logicengine.stack.service.TaskMaintainService.CREATED_DATE_DESC。
 
