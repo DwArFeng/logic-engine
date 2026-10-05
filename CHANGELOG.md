@@ -4,6 +4,9 @@
 
 ### 功能构建
 
+- Wiki 编写。
+  - docs/wiki/zh-CN/CompileBySource.md。
+
 - 实现预设守卫器。
   - com.dwarfeng.logicengine.impl.handler.guarder.compare.CompareGuarderRegistry。
 
