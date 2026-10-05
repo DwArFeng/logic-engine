@@ -30,5 +30,10 @@ public interface GuarderInfoMaintainService extends BatchCrudService<LongIdKey, 
      */
     String SECTION_KEY_ASC_INDEX_ASC = "section_key_asc_index_asc";
 
+    /**
+     * @since 1.2.0
+     */
+    String CHILD_FOR_SECTION_INDEX_ASC = "child_for_section_index_asc";
+
     // endregion
 }

@@ -30,6 +30,9 @@ public class PerformerInfoPresetCriteriaMaker implements PresetCriteriaMaker {
             case PerformerInfoMaintainService.SECTION_KEY_ASC_INDEX_ASC:
                 sectionKeyAscIndexAsc(criteria, objs);
                 break;
+            case PerformerInfoMaintainService.CHILD_FOR_SECTION_INDEX_ASC:
+                childForSectionIndexAsc(criteria, objs);
+                break;
             default:
                 throw new IllegalArgumentException("无法识别的预设: " + preset);
         }
@@ -71,6 +74,21 @@ public class PerformerInfoPresetCriteriaMaker implements PresetCriteriaMaker {
                 criteria.add(Restrictions.eqOrIsNull(sectionLongIdProperty, stateKey.getSectionLongId()));
                 criteria.add(Restrictions.eqOrIsNull(stateIdProperty, stateKey.getStateId()));
             }
+        } catch (Exception e) {
+            throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objs));
+        }
+    }
+
+    @SuppressWarnings("DuplicatedCode")
+    private void childForSectionIndexAsc(DetachedCriteria criteria, Object[] objs) {
+        try {
+            if (Objects.isNull(objs[0])) {
+                criteria.add(Restrictions.isNull("sectionLongId"));
+            } else {
+                LongIdKey longIdKey = (LongIdKey) objs[0];
+                criteria.add(Restrictions.eqOrIsNull("sectionLongId", longIdKey.getLongId()));
+            }
+            criteria.addOrder(Order.asc("index"));
         } catch (Exception e) {
             throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objs));
         }
