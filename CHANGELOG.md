@@ -4,7 +4,8 @@
 
 ### 功能构建
 
-- (无)
+- 实现预设执行器。
+  - com.dwarfeng.logicengine.impl.handler.performer.cmd.CmdPerformerRegistry。
 
 ### Bug 修复
 

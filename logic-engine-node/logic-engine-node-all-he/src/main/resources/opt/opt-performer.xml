@@ -12,6 +12,11 @@
 
     <!-- 加载 GroovyPerformer -->
     <!--
-    <context:component-scan base-package="com.dwarfeng.logicengine.impl.handler.performer"/>
+    <context:component-scan base-package="com.dwarfeng.logicengine.impl.handler.performer.groovy"/>
+    -->
+
+    <!-- 加载 CmdPerformer -->
+    <!--
+    <context:component-scan base-package="com.dwarfeng.logicengine.impl.handler.performer.cmd"/>
     -->
 </beans>
