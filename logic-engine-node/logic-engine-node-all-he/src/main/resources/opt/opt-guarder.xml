@@ -10,8 +10,13 @@
         http://www.springframework.org/schema/context/spring-context.xsd"
 >
 
-    <!-- 加载 Guarder -->
+    <!-- 加载 AlwaysGuarder -->
     <!--
-    <context:component-scan base-package="com.dwarfeng.logicengine.impl.handler.guarder"/>
+    <context:component-scan base-package="com.dwarfeng.logicengine.impl.handler.guarder.always"/>
+    -->
+
+    <!-- 加载 GroovyGuarder -->
+    <!--
+    <context:component-scan base-package="com.dwarfeng.logicengine.impl.handler.guarder.groovy"/>
     -->
 </beans>
