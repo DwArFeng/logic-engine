@@ -4,6 +4,9 @@
 
 ### 功能构建
 
+- 实现预设守卫器。
+  - com.dwarfeng.logicengine.impl.handler.guarder.compare.CompareGuarderRegistry。
+
 - 实现预设执行器。
   - com.dwarfeng.logicengine.impl.handler.performer.cmd.CmdPerformerRegistry。
 
