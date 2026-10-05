@@ -19,4 +19,9 @@
     <!--
     <context:component-scan base-package="com.dwarfeng.logicengine.impl.handler.performer.cmd"/>
     -->
+
+    <!-- 加载 AnchorMessagePerformer -->
+    <!--
+    <context:component-scan base-package="com.dwarfeng.logicengine.impl.handler.performer.anchmsg"/>
+    -->
 </beans>
