@@ -1,5 +1,7 @@
 package com.dwarfeng.logicengine.stack.handler;
 
+import com.dwarfeng.logicengine.stack.bean.dto.TaskEventCreateInfo;
+import com.dwarfeng.logicengine.stack.bean.dto.TaskUpdateModalInfo;
 import com.dwarfeng.logicengine.stack.bean.dto.TaskVariableInspectInfo;
 import com.dwarfeng.logicengine.stack.bean.dto.TaskVariableInspectResult;
 import com.dwarfeng.logicengine.stack.bean.dto.TaskVariableRemoveInfo;
@@ -47,7 +49,7 @@ public interface Performer {
          *
          * <p>
          * 该方法被调用时，需要按照预定的逻辑执行状态转移动作。执行器可以通过 {@link Context} 获取任务及状态信息，
-         * 并对任务变量进行维护。
+         * 并对任务变量进行维护，或创建任务事件。
          *
          * @throws Exception 方法执行过程中发生的任何异常。
          */
@@ -118,5 +120,23 @@ public interface Performer {
          * @throws Exception 方法执行过程中发生的任何异常。
          */
         void removeTaskVariable(TaskVariableRemoveInfo info) throws Exception;
+
+        /**
+         * 更新任务模态。
+         *
+         * @param info 任务更新模态信息。
+         * @throws Exception 方法执行过程中发生的任何异常。
+         * @since 1.2.0
+         */
+        void updateTaskModal(TaskUpdateModalInfo info) throws Exception;
+
+        /**
+         * 创建任务事件。
+         *
+         * @param info 任务事件创建信息。
+         * @throws Exception 方法执行过程中发生的任何异常。
+         * @since 1.2.0
+         */
+        void createTaskEvent(TaskEventCreateInfo info) throws Exception;
     }
 }

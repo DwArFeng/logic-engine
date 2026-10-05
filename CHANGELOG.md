@@ -4,6 +4,9 @@
 
 ### 功能构建
 
+- 优化执行机制。
+  - 优化 `com.dwarfeng.logicengine.stack.handler.Performer` 接口签名。
+
 - 优化守卫机制。
   - 优化 `com.dwarfeng.logicengine.stack.handler.Guarder` 接口签名。
 

@@ -163,7 +163,7 @@ public class JobHandlerImpl implements JobHandler {
                 State targetState = cache.getStates().get(selectedGuarder.getTargetStateKey());
                 Performer.Context performerContext = ctx.getBean(
                         PerformerContext.class, getTask(taskKey), cache, currentState, targetState,
-                        taskVariableOperateHandler
+                        taskVariableOperateHandler, taskEventOperateHandler, taskOperateHandler
                 );
                 executePerformers(cache, performerContext, selectedGuarder);
                 if (!continueProcessing(taskKey)) {
@@ -364,19 +364,25 @@ public class JobHandlerImpl implements JobHandler {
         private final State anchorState;
         private final State targetState;
         private final TaskVariableOperateHandler taskVariableOperateHandler;
+        private final TaskEventOperateHandler taskEventOperateHandler;
+        private final TaskOperateHandler taskOperateHandler;
 
         public PerformerContext(
                 Task task,
                 JobLocalCache cache,
                 State anchorState,
                 State targetState,
-                TaskVariableOperateHandler taskVariableOperateHandler
+                TaskVariableOperateHandler taskVariableOperateHandler,
+                TaskEventOperateHandler taskEventOperateHandler,
+                TaskOperateHandler taskOperateHandler
         ) {
             this.task = task;
             this.cache = cache;
             this.anchorState = anchorState;
             this.targetState = targetState;
             this.taskVariableOperateHandler = taskVariableOperateHandler;
+            this.taskEventOperateHandler = taskEventOperateHandler;
+            this.taskOperateHandler = taskOperateHandler;
         }
 
         @Override
@@ -413,6 +419,16 @@ public class JobHandlerImpl implements JobHandler {
         @Override
         public void removeTaskVariable(TaskVariableRemoveInfo info) throws Exception {
             taskVariableOperateHandler.remove(info);
+        }
+
+        @Override
+        public void updateTaskModal(TaskUpdateModalInfo info) throws Exception {
+            taskOperateHandler.updateModal(info);
+        }
+
+        @Override
+        public void createTaskEvent(TaskEventCreateInfo info) throws Exception {
+            taskEventOperateHandler.create(info);
         }
 
     }
