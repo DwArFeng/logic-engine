@@ -148,7 +148,8 @@ public class JobHandlerImpl implements JobHandler {
             sleep(currentState.getFirstSpinDelay());
             while (continueProcessing(taskKey)) {
                 Guarder.Context guarderContext = ctx.getBean(
-                        GuarderContext.class, getTask(taskKey), cache, currentState, taskVariableOperateHandler
+                        GuarderContext.class, getTask(taskKey), cache, currentState, taskVariableOperateHandler,
+                        taskEventOperateHandler, taskOperateHandler
                 );
                 GuarderInfo selectedGuarder = selectGuarder(cache, guarderContext, currentState);
                 if (selectedGuarder == null) {
@@ -292,17 +293,23 @@ public class JobHandlerImpl implements JobHandler {
         private final JobLocalCache cache;
         private final State currentState;
         private final TaskVariableOperateHandler taskVariableOperateHandler;
+        private final TaskEventOperateHandler taskEventOperateHandler;
+        private final TaskOperateHandler taskOperateHandler;
 
         public GuarderContext(
                 Task task,
                 JobLocalCache cache,
                 State currentState,
-                TaskVariableOperateHandler taskVariableOperateHandler
+                TaskVariableOperateHandler taskVariableOperateHandler,
+                TaskEventOperateHandler taskEventOperateHandler,
+                TaskOperateHandler taskOperateHandler
         ) {
             this.task = task;
             this.cache = cache;
             this.currentState = currentState;
             this.taskVariableOperateHandler = taskVariableOperateHandler;
+            this.taskEventOperateHandler = taskEventOperateHandler;
+            this.taskOperateHandler = taskOperateHandler;
         }
 
         @Override
@@ -334,6 +341,16 @@ public class JobHandlerImpl implements JobHandler {
         @Override
         public void removeTaskVariable(TaskVariableRemoveInfo info) throws Exception {
             taskVariableOperateHandler.remove(info);
+        }
+
+        @Override
+        public void updateTaskModal(TaskUpdateModalInfo info) throws Exception {
+            taskOperateHandler.updateModal(info);
+        }
+
+        @Override
+        public void createTaskEvent(TaskEventCreateInfo info) throws Exception {
+            taskEventOperateHandler.create(info);
         }
 
     }
@@ -397,5 +414,6 @@ public class JobHandlerImpl implements JobHandler {
         public void removeTaskVariable(TaskVariableRemoveInfo info) throws Exception {
             taskVariableOperateHandler.remove(info);
         }
+
     }
 }

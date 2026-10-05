@@ -4,6 +4,9 @@
 
 ### 功能构建
 
+- 优化守卫机制。
+  - 优化 `com.dwarfeng.logicengine.stack.handler.Guarder` 接口签名。
+
 - 依赖升级。
   - 升级 `jackson` 依赖版本为 `2.21.7` 以规避漏洞。
 

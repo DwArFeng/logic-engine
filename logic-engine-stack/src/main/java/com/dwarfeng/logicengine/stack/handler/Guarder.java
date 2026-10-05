@@ -1,5 +1,7 @@
 package com.dwarfeng.logicengine.stack.handler;
 
+import com.dwarfeng.logicengine.stack.bean.dto.TaskEventCreateInfo;
+import com.dwarfeng.logicengine.stack.bean.dto.TaskUpdateModalInfo;
 import com.dwarfeng.logicengine.stack.bean.dto.TaskVariableInspectInfo;
 import com.dwarfeng.logicengine.stack.bean.dto.TaskVariableInspectResult;
 import com.dwarfeng.logicengine.stack.bean.dto.TaskVariableRemoveInfo;
@@ -16,7 +18,7 @@ import javax.annotation.Nullable;
  *
  * <p>
  * 守卫器用于判断当前状态是否允许向目标状态转移。实现可以通过 {@link Context} 获取任务及状态信息，
- * 并查看或维护任务变量。
+ * 并查看或维护任务变量，或创建任务事件。
  *
  * @author DwArFeng
  * @since 1.0.0
@@ -112,5 +114,23 @@ public interface Guarder {
          * @throws Exception 方法执行过程中发生的任何异常。
          */
         void removeTaskVariable(TaskVariableRemoveInfo info) throws Exception;
+
+        /**
+         * 更新任务模态。
+         *
+         * @param info 任务更新模态信息。
+         * @throws Exception 方法执行过程中发生的任何异常。
+         * @since 1.2.0
+         */
+        void updateTaskModal(TaskUpdateModalInfo info) throws Exception;
+
+        /**
+         * 创建任务事件。
+         *
+         * @param info 任务事件创建信息。
+         * @throws Exception 方法执行过程中发生的任何异常。
+         * @since 1.2.0
+         */
+        void createTaskEvent(TaskEventCreateInfo info) throws Exception;
     }
 }
