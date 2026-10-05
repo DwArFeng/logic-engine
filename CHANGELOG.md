@@ -5,6 +5,7 @@
 ### 功能构建
 
 - 实现预设执行器。
+  - com.dwarfeng.logicengine.impl.handler.performer.tskevt.TaskEventPerformerRegistry。
   - com.dwarfeng.logicengine.impl.handler.performer.anchmsg.AnchorMessagePerformerRegistry。
 
 - 优化执行机制。
