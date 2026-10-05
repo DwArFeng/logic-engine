@@ -22,4 +22,13 @@ public interface GuarderInfoMaintainService extends BatchCrudService<LongIdKey, 
     String CHILD_FOR_TARGET_STATE = "child_for_target_state";
 
     // endregion
+
+    // region 预设查询 - UI
+
+    /**
+     * @since 1.2.0
+     */
+    String SECTION_KEY_ASC_INDEX_ASC = "section_key_asc_index_asc";
+
+    // endregion
 }

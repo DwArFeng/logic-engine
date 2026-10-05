@@ -4,6 +4,10 @@
 
 ### 功能构建
 
+- 增加预设查询。
+  - com.dwarfeng.logicengine.stack.service.GuarderInfoMaintainService.SECTION_KEY_ASC_INDEX_ASC。
+  - com.dwarfeng.logicengine.stack.service.PerformerInfoMaintainService.SECTION_KEY_ASC_INDEX_ASC。
+
 - 实现预设执行器。
   - com.dwarfeng.logicengine.impl.handler.performer.tskevt.TaskEventPerformerRegistry。
   - com.dwarfeng.logicengine.impl.handler.performer.anchmsg.AnchorMessagePerformerRegistry。
